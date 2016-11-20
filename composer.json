@@ -1,0 +1,30 @@
+{
+    "name": "ambitia/framework",
+    "description": "Ambitia Framework",
+    "minimum-stability": "stable",
+    "keywords": ["framework", "ambitia"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Artur Śmiarowski",
+            "email": "artur.smiarowski@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "symfony/http-foundation": "^3.1",
+        "nikic/fast-route": "^1.0",
+        "php-di/php-di": "^5.4"
+    },
+    "require-dev": {
+        "phpspec/phpspec": "^3.1"
+    },
+    "config": {
+        "bin-dir": "bin"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ambitia\\": "src/"
+        }
+    }
+}

@@ -1,0 +1,4 @@
+suites:
+    ambicja_suite:
+        namespace: Ambitia
+        psr4_prefix: Ambitia
