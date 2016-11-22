@@ -1,6 +1,10 @@
+suites:
+    ambicja_suite:
+        namespace: Ambitia
+        psr4_prefix: Ambitia
 extensions:
   PhpSpecCodeCoverage\CodeCoverageExtension:
-      format:
-        - clover
-      output:
-        clover: coverage.clover
+    format:
+      - clover
+    output:
+      clover: coverage.clover
