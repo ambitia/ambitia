@@ -1,11 +1,6 @@
 extensions:
-  - PhpSpec\Extension\CodeCoverageExtension
-code_coverage:
-  blacklist:
-    - src/MyVendor/MyProjectDoctrineBridge
-  whitelist:
-    - src/MyVendor/MyProject
-  format:
-    - clover
-  output:
-    clover: coverage.clover
+  PhpSpecCodeCoverage\CodeCoverageExtension:
+      format:
+        - clover
+      output:
+        clover: coverage.clover
