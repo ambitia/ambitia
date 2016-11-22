@@ -29,7 +29,7 @@ class FastRouteInfo extends RouteInfo
         }
     }
 
-    function setStatus(int $status)
+    public function setStatus(int $status)
     {
         $this->status = $this->mapStatus($status);
     }

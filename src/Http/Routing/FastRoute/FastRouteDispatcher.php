@@ -48,39 +48,63 @@ class FastRouteDispatcher implements DispatcherContract
     }
 
     /**
+     * Translate internal uri format to external library format
      * @param string $uri
      * @return string
      */
     protected function translateUri(string $uri)
     {
-        if (strpos('/', $uri) === 0) {
-            $uri = substr($uri, 1);
-        }
+        $uri = $this->stripFirstSlash($uri);
 
         $parts = explode('/', $uri);
 
-        if (empty($parts)) {
-            return '/';
-        }
-        $uri = '';
+        if (empty($parts)) return '/';
 
+        $uri = '';
         foreach ($parts as $key => &$part) {
             if ($key === 0) {
                 $uri .= $part;
                 continue;
             }
             if (strpos($part, '{') > -1 && strpos($part, '}') > -1) {
-                $param = str_replace(['{', '}', '?'], '', $part);
-                $pattern = !empty($this->patterns[$param]) ? sprintf(':%s', $this->patterns[$param]) : '';
-                if (strpos($part, '?')) {
-                    $uri .= sprintf('[/{%s%s}]', $param, $pattern);
-                } else {
-                    $uri .= sprintf('/{%s%s}', $param, $pattern);
-                }
+                $this->addParamAndPatternToUri($uri, $part);
                 continue;
             }
 
             $uri .= sprintf('/%s', $part);
+        }
+
+        return $uri;
+    }
+
+    /**
+     * Strip first slash from uri to normalize it
+     * @param string $uri
+     * @return string
+     */
+    protected function stripFirstSlash(string $uri) : string
+    {
+        if (strpos('/', $uri) === 0) {
+            $uri = substr($uri, 1);
+        }
+
+        return $uri;
+    }
+
+    /**
+     * Add parameter and it's pattern to uri based on required format by used library
+     * @param string $uri
+     * @param string $part
+     * @return string
+     */
+    protected function addParamAndPatternToUri(string $uri, string $part) : string
+    {
+        $param = str_replace(['{', '}', '?'], '', $part);
+        $pattern = !empty($this->patterns[$param]) ? sprintf(':%s', $this->patterns[$param]) : '';
+        if (strpos($part, '?')) {
+            $uri .= sprintf('[/{%s%s}]', $param, $pattern);
+        } else {
+            $uri .= sprintf('/{%s%s}', $param, $pattern);
         }
 
         return $uri;
