@@ -26,5 +26,16 @@ class AlphaSpec extends ObjectBehavior
         foreach (str_split('!@#$%^&*()_+-=`~<>/?;:\'"[]{}.,|\\0123456789') as $char) {
             $this->validate($char)->shouldReturn(false);
         }
+        $curl = curl_init();
+        $this->validate([])->shouldReturn(false);
+        $this->validate(true)->shouldReturn(false);
+        $this->validate(12.345)->shouldReturn(false);
+        $this->validate(function () {
+            return true;
+        })->shouldReturn(false);
+        $this->validate((object)array('1' => 'foo'))->shouldReturn(false);
+        $this->validate(null)->shouldReturn(false);
+        $this->validate($curl)->shouldReturn(false);
+        curl_close($curl);
     }
 }

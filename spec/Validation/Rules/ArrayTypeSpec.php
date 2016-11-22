@@ -36,5 +36,6 @@ class ArrayTypeSpec extends ObjectBehavior
         $this->validate(null)->shouldReturn(false);
         $this->validate($curl)->shouldReturn(false);
         curl_close($curl);
+        $this->validate(new \ArrayObject())->shouldReturn(false);
     }
 }
