@@ -8,6 +8,6 @@ interface RequestContract
      * Get client input for application
      * @return array
      */
-    function input() : array;
+    public function input() : array;
 
 }

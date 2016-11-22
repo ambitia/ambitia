@@ -26,7 +26,7 @@ class RouteInfo implements DispatcherResult
     /**
      * @inheritDoc
      */
-    function getStatus() : int
+    public function getStatus() : int
     {
         return $this->status;
     }
@@ -34,7 +34,7 @@ class RouteInfo implements DispatcherResult
     /**
      * @inheritDoc
      */
-    function getHandler() : array
+    public function getHandler() : array
     {
         return $this->handler;
     }
@@ -42,7 +42,7 @@ class RouteInfo implements DispatcherResult
     /**
      * @inheritDoc
      */
-    function getParams() : array
+    public function getParams() : array
     {
         return $this->params;
     }
@@ -50,7 +50,7 @@ class RouteInfo implements DispatcherResult
     /**
      * @inheritDoc
      */
-    function getMethod() : string
+    public function getMethod() : string
     {
         return $this->method;
     }
@@ -58,7 +58,7 @@ class RouteInfo implements DispatcherResult
     /**
      * @inheritDoc
      */
-    function setStatus(int $status)
+    public function setStatus(int $status)
     {
         $this->status = $status;
     }

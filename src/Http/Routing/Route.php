@@ -32,7 +32,7 @@ class Route implements RouteContract
      * @param string $uri
      * @param array $callback
      */
-    function __construct(string $method, string $name, string $uri, array $callback)
+    public function __construct(string $method, string $name, string $uri, array $callback)
     {
         $this->method = $method;
         $this->name = $name;
@@ -43,7 +43,7 @@ class Route implements RouteContract
     /**
      * @return string
      */
-    function getMethod() : string
+    public function getMethod() : string
     {
         return $this->method;
     }
@@ -51,7 +51,7 @@ class Route implements RouteContract
     /**
      * @return string
      */
-    function getName() : string
+    public function getName() : string
     {
         return $this->name;
     }
@@ -59,7 +59,7 @@ class Route implements RouteContract
     /**
      * @return string
      */
-    function getUri() : string
+    public function getUri() : string
     {
         return $this->uri;
     }
@@ -67,7 +67,7 @@ class Route implements RouteContract
     /**
      * @return array
      */
-    function getCallback() : array
+    public function getCallback() : array
     {
         return $this->callback;
     }

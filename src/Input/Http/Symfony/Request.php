@@ -10,7 +10,7 @@ class Request extends SymfonyRequest implements RequestContract, HttpRequest
     /**
      * @inheritDoc
      */
-    function input() : array
+    public function input() : array
     {
         return array_merge(
             $this->query->all(),
@@ -22,7 +22,7 @@ class Request extends SymfonyRequest implements RequestContract, HttpRequest
      * Url without domain, beginning slash and query string
      * @return string
      */
-    function getPathInfo() : string
+    public function getPathInfo() : string
     {
         $pathInfo = parent::getPathInfo();
 
@@ -33,7 +33,7 @@ class Request extends SymfonyRequest implements RequestContract, HttpRequest
      * Get HTTP method called
      * @return string
      */
-    function getMethod() : string
+    public function getMethod() : string
     {
         return parent::getMethod();
     }
