@@ -55,13 +55,13 @@ class MatchRoute implements RouteMatcher
 
     /**
      * Check if method exists
-     * @param object $entry
+     * @param mixed $entry
      * @param string $method
      * @param string $class
      * @return string
      * @throws MethodNotFound
      */
-    protected function checkMethodExistance(object $entry, string $method, string $class) : string
+    protected function checkMethodExistance($entry, string $method, string $class) : string
     {
         if (empty($method) || !method_exists($entry, $method)) {
             throw new MethodNotFound($class, $method);

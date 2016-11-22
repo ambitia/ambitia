@@ -35,14 +35,7 @@ class FastRouteDispatcher implements DispatcherContract
         });
 
         $routeInfo = $dispatcher->dispatch($method, $uri);
-
-        if (!isset($routeInfo[1]) || !is_callable($routeInfo[1])) {
-            $routeInfo[1] = null;
-        }
-
-        if (empty($routeInfo[2])) {
-            $routeInfo[2] = [];
-        }
+        $routeInfo = array_replace([0, [], []], $routeInfo);
 
         return new FastRouteInfo($routeInfo[0], $method, $routeInfo[1], $routeInfo[2]);
     }

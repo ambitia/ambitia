@@ -26,4 +26,16 @@ class FastRouteDispatcherSpec extends ObjectBehavior
         $routeInfo = $this->dispatch('POST', 'user/1');
         $routeInfo->getStatus()->shouldReturn(DispatcherResult::FOUND);
     }
+
+    function it_should_work_when_cant_match()
+    {
+        $this->setRoutes([
+            new Route('POST', 'user.new', 'user/{user?}', [IndexEntry::class, 'index'])
+        ]);
+        $routeInfo = $this->dispatch('GET', 'user');
+        $routeInfo->getStatus()->shouldReturn(DispatcherResult::METHOD_NOT_ALLOWED);
+
+        $routeInfo = $this->dispatch('POST', 'work');
+        $routeInfo->getStatus()->shouldReturn(DispatcherResult::NOT_FOUND);
+    }
 }
