@@ -58,7 +58,9 @@ class FastRouteDispatcher implements DispatcherContract
 
         $parts = explode('/', $uri);
 
-        if (empty($parts)) return '/';
+        if (empty($parts)) {
+            return '/';
+        }
 
         $uri = '';
         foreach ($parts as $key => &$part) {
@@ -67,7 +69,7 @@ class FastRouteDispatcher implements DispatcherContract
                 continue;
             }
             if (strpos($part, '{') > -1 && strpos($part, '}') > -1) {
-                $this->addParamAndPatternToUri($uri, $part);
+                $uri = $this->addParamAndPatternToUri($uri, $part);
                 continue;
             }
 

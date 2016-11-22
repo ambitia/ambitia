@@ -34,7 +34,7 @@ interface DispatcherResult
     /**
      * @return array
      */
-    function getHandler() : array ;
+    function getHandler() : array;
 
     /**
      * @return array

@@ -24,13 +24,10 @@ class MatchRoute implements RouteMatcher
                 $handler = $result->getHandler();
 
                 $class = $this->checkClassExistance($handler[0]);
-
                 $entry = new $class();
-
                 $method = $this->checkMethodExistance($entry, $handler[1], $class);
 
                 $data = call_user_func_array([$entry, $method], $result->getParams());
-
                 $response->setData($data);
 
                 return $response;
@@ -47,7 +44,7 @@ class MatchRoute implements RouteMatcher
      * @return string
      * @throws ClassNotFound
      */
-    protected function checkClassExistance(string $class)
+    protected function checkClassExistance(string $class) : string
     {
         if (empty($class) || !class_exists($class)) {
             throw new ClassNotFound($class);
@@ -64,7 +61,7 @@ class MatchRoute implements RouteMatcher
      * @return string
      * @throws MethodNotFound
      */
-    protected function checkMethodExistance(object $entry, string $method, string $class)
+    protected function checkMethodExistance(object $entry, string $method, string $class) : string
     {
         if (empty($method) || !method_exists($entry, $method)) {
             throw new MethodNotFound($class, $method);
