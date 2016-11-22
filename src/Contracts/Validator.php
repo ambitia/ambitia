@@ -1,20 +1,18 @@
 <?php
 
-namespace Ambitia\Validation\Contracts;
+namespace Ambitia\Contracts;
 
 /**
  * Validate values against certain rules (constraints)
- *
- * @author Artur Śmiarowski <artur.smiarowski@gmail.com>
  */
-interface ValidatorContract
+interface Validator
 {
 
     /**
      * Validates a value against an array of constraints
      * @param mixed $value
-     * @param \Symfony\Component\Validator\Constraint[] $constraints
-     * @return MessageListContract
+     * @param string[] $rules Array of \Ambitia\Contracts\Rule constants
+     * @return bool
      */
-    public function validate($value, array $constraints) : MessageListContract;
+    public function validate($value, array $rules) : bool;
 }

@@ -21,7 +21,7 @@ class FastRouteDispatcher implements DispatcherContract
     /**
      * @inheritDoc
      */
-    function dispatch(string $method, string $uri) : DispatcherResult
+    public function dispatch(string $method, string $uri) : DispatcherResult
     {
         $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) {
             /** @var RouteContract $route */
@@ -89,7 +89,7 @@ class FastRouteDispatcher implements DispatcherContract
     /**
      * @inheritDoc
      */
-    function setPatterns(array $patterns)
+    public function setPatterns(array $patterns)
     {
         $this->patterns = $patterns;
     }
@@ -97,7 +97,7 @@ class FastRouteDispatcher implements DispatcherContract
     /**
      * @inheritDoc
      */
-    function setRoutes(array $routes)
+    public function setRoutes(array $routes)
     {
         $this->routes = $routes;
     }
