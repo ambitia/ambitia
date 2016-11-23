@@ -51,7 +51,7 @@ class FastRouteDispatcher implements DispatcherContract
 
         $parts = explode('/', $uri);
 
-        if (empty($parts)) {
+        if (empty($parts[0])) {
             return '/';
         }
 
@@ -79,7 +79,7 @@ class FastRouteDispatcher implements DispatcherContract
      */
     protected function stripFirstSlash(string $uri) : string
     {
-        if (strpos('/', $uri) === 0) {
+        if (strpos($uri, '/') === 0) {
             $uri = substr($uri, 1);
         }
 

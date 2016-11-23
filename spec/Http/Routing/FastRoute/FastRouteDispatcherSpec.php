@@ -38,4 +38,22 @@ class FastRouteDispatcherSpec extends ObjectBehavior
         $routeInfo = $this->dispatch('POST', 'work');
         $routeInfo->getStatus()->shouldReturn(DispatcherResult::NOT_FOUND);
     }
+
+    function it_should_default_to_slash_when_empty()
+    {
+        $this->setRoutes([
+            new Route('GET', 'user.new', '', [IndexEntry::class, 'index'])
+        ]);
+        $routeInfo = $this->dispatch('GET', '/');
+        $routeInfo->getStatus()->shouldReturn(DispatcherResult::FOUND);
+    }
+
+    function it_should_strip_trailing_slash_for_normalization()
+    {
+        $this->setRoutes([
+            new Route('GET', 'user.new', '/user', [IndexEntry::class, 'index'])
+        ]);
+        $routeInfo = $this->dispatch('GET', 'user');
+        $routeInfo->getStatus()->shouldReturn(DispatcherResult::FOUND);
+    }
 }
