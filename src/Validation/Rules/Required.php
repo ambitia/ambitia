@@ -10,10 +10,9 @@ class Required extends AbstractRule implements RuleValidator
     public function validate($input): bool
     {
         if (is_string($input)) {
-            $input = trim($input);
+            return strlen(trim($input)) > 0;
         }
 
-        return (is_string($input) && strlen($input) > 0) ||
-            (!is_string($input) && count($input) > 0);
+        return count($input) > 0;
     }
 }
