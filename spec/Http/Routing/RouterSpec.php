@@ -10,6 +10,7 @@ use Ambitia\Http\Routing\Router;
 use Ambitia\Input\Http\Symfony\Request;
 use Ambitia\Output\Response;
 use PhpSpec\ObjectBehavior;
+use Ambitia\Example\Test\IndexEntry;
 
 class RouterSpec extends ObjectBehavior
 {

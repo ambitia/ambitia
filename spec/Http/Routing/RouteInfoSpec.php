@@ -4,7 +4,7 @@ namespace spec\Ambitia\Http\Routing;
 
 use Ambitia\Http\Routing\RouteInfo;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
+use Ambitia\Example\Test\IndexEntry;
 
 class RouteInfoSpec extends ObjectBehavior
 {

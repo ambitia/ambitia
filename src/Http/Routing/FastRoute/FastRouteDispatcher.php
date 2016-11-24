@@ -52,7 +52,7 @@ class FastRouteDispatcher implements DispatcherContract
         $parts = explode('/', $uri);
 
         if (empty($parts[0])) {
-            return '/';
+            return '';
         }
 
         $uri = '';

@@ -6,6 +6,7 @@ use Ambitia\Http\Routing\Contracts\DispatcherResult;
 use Ambitia\Http\Routing\FastRoute\FastRouteDispatcher;
 use Ambitia\Http\Routing\Route;
 use PhpSpec\ObjectBehavior;
+use Ambitia\Example\Test\IndexEntry;
 
 class FastRouteDispatcherSpec extends ObjectBehavior
 {
@@ -48,7 +49,13 @@ class FastRouteDispatcherSpec extends ObjectBehavior
         $this->setRoutes([
             new Route('GET', 'user.new', '', [IndexEntry::class, 'index'])
         ]);
-        $routeInfo = $this->dispatch('GET', '/');
+        $routeInfo = $this->dispatch('GET', '');
+        $routeInfo->getStatus()->shouldReturn(DispatcherResult::FOUND);
+
+        $this->setRoutes([
+            new Route('GET', 'user.a', '/', [IndexEntry::class, 'index'])
+        ]);
+        $routeInfo = $this->dispatch('GET', '');
         $routeInfo->getStatus()->shouldReturn(DispatcherResult::FOUND);
     }
 

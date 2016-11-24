@@ -6,6 +6,7 @@ use Ambitia\Http\Routing\Contracts\DispatcherResult;
 use Ambitia\Http\Routing\FastRoute\FastRouteInfo;
 use FastRoute\Dispatcher;
 use PhpSpec\ObjectBehavior;
+use Ambitia\Example\Test\IndexEntry;
 
 class FastRouteInfoSpec extends ObjectBehavior
 {
