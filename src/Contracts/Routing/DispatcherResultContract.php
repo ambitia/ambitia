@@ -1,9 +1,9 @@
 <?php
 
-namespace Ambitia\Http\Routing\Contracts;
+namespace Ambitia\Contracts\Routing;
 
 
-interface DispatcherResult
+interface DispatcherResultContract
 {
     const NOT_FOUND = 0;
 

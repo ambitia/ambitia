@@ -2,10 +2,10 @@
 
 namespace Ambitia\Validation;
 
-use Ambitia\Contracts\RuleValidator;
+use Ambitia\Contracts\Validation\RuleContract;
 use Ambitia\Validation\Exceptions\InvalidRulesFormatException;
 
-class Validator implements \Ambitia\Contracts\Validator
+class Validator implements \Ambitia\Contracts\Validation\Validator
 {
     /**
      * Array of key value pairs, where key is an input name and it's value is going to
@@ -26,7 +26,7 @@ class Validator implements \Ambitia\Contracts\Validator
 
     /**
      * Validator constructor.
-     * @param RuleValidator[] $rules Array of rules assigned to field names.
+     * @param RuleContract[] $rules Array of rules assigned to field names.
      */
     public function __construct(array $rules)
     {
@@ -118,10 +118,10 @@ class Validator implements \Ambitia\Contracts\Validator
             $rule = $this->decideWhichIsRule($key, $value);
 
             $contracts = class_implements($rule);
-            if (!isset($contracts[RuleValidator::class])) {
+            if (!isset($contracts[RuleContract::class])) {
                 throw new InvalidRulesFormatException(
                     sprintf('Rule class %s does not implement required contract %s',
-                        $rule, RuleValidator::class)
+                        $rule, RuleContract::class)
                 );
             }
         }
@@ -143,9 +143,9 @@ class Validator implements \Ambitia\Contracts\Validator
      * @param string $rule
      * @param string|int $key
      * @param string $value
-     * @return RuleValidator
+     * @return RuleContract
      */
-    protected function createRuleObject($rule, $key, $value): RuleValidator
+    protected function createRuleObject($rule, $key, $value): RuleContract
     {
         if ($rule === $key) {
             return new $key($value);

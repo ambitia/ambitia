@@ -1,8 +1,8 @@
 <?php namespace Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\RuleValidator;
+use Ambitia\Contracts\Validation\RuleContract;
 
-class Phone extends \Respect\Validation\Rules\Phone implements RuleValidator
+class Phone extends \Respect\Validation\Rules\Phone implements RuleContract
 {
     public function validate($input) : bool
     {

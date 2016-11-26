@@ -1,6 +1,6 @@
 <?php namespace Ambitia\Http\Routing;
 
-use Ambitia\Http\Routing\Contracts\RouteContract;
+use Ambitia\Contracts\Routing\RouteContract;
 
 class Route implements RouteContract
 {

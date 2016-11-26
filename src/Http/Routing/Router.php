@@ -1,12 +1,12 @@
 <?php namespace Ambitia\Http\Routing;
 
-use Ambitia\Http\Routing\Contracts\DispatcherContract;
-use Ambitia\Http\Routing\Contracts\DispatcherResult;
-use Ambitia\Http\Routing\Contracts\RouteContract;
-use Ambitia\Http\Routing\Contracts\RouteMatcher;
-use Ambitia\Http\Routing\Contracts\RouterContract;
-use Ambitia\Input\Http\Contracts\HttpRequest;
-use Ambitia\Output\Contracts\ResponseContract;
+use Ambitia\Contracts\Routing\DispatcherContract;
+use Ambitia\Contracts\Routing\DispatcherResultContract;
+use Ambitia\Contracts\Routing\RouteContract;
+use Ambitia\Contracts\Routing\RouteMatcherContract;
+use Ambitia\Contracts\Routing\RouterContract;
+use Ambitia\Contracts\Input\HttpRequestContract;
+use Ambitia\Contracts\Output\ResponseContract;
 
 class Router implements RouterContract
 {
@@ -17,7 +17,7 @@ class Router implements RouterContract
     protected $dispatcher;
 
     /**
-     * @var HttpRequest
+     * @var HttpRequestContract
      */
     protected $request;
 
@@ -27,7 +27,7 @@ class Router implements RouterContract
     protected $response;
 
     /**
-     * @var RouteMatcher
+     * @var RouteMatcherContract
      */
     protected $routeMatcher;
 
@@ -46,12 +46,12 @@ class Router implements RouterContract
     /**
      * Router constructor.
      * @param DispatcherContract $dispatcher
-     * @param HttpRequest $request
-     * @param RouteMatcher $routeMatcher
+     * @param HttpRequestContract $request
+     * @param RouteMatcherContract $routeMatcher
      * @param ResponseContract $response
      */
-    public function __construct(DispatcherContract $dispatcher, HttpRequest $request,
-                                RouteMatcher $routeMatcher, ResponseContract $response)
+    public function __construct(DispatcherContract $dispatcher, HttpRequestContract $request,
+                                RouteMatcherContract $routeMatcher, ResponseContract $response)
     {
         $this->dispatcher = $dispatcher;
         $this->request = $request;
@@ -75,9 +75,9 @@ class Router implements RouterContract
      * Dispatch route dispatcher and match the route
      * @param string $method
      * @param string $uri
-     * @return DispatcherResult
+     * @return DispatcherResultContract
      */
-    public function dispatch(string $method, string $uri) : DispatcherResult
+    public function dispatch(string $method, string $uri) : DispatcherResultContract
     {
         $this->dispatcher->setRoutes($this->routes);
         $this->dispatcher->setPatterns($this->patterns);

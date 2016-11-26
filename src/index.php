@@ -4,7 +4,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 use Ambitia\Example\Test\IndexEntry;
 use Ambitia\DIContainer\Container;
-use Ambitia\Http\Routing\Contracts\RouterContract;
+use Ambitia\Contracts\Routing\RouterContract;
 
 $containerConfig = include './Config/dependencies.php';
 $container = new Container(new \DI\ContainerBuilder(), $containerConfig);

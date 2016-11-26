@@ -2,7 +2,7 @@
 
 namespace spec\Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\RuleValidator;
+use Ambitia\Contracts\Validation\RuleContract;
 use Ambitia\Validation\Rules\Domain;
 use PhpSpec\ObjectBehavior;
 
@@ -11,7 +11,7 @@ class DomainSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(Domain::class);
-        $this->shouldImplement(RuleValidator::class);
+        $this->shouldImplement(RuleContract::class);
     }
 
     function it_should_pass_on_valid_domain()

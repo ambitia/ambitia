@@ -2,8 +2,8 @@
 
 namespace spec\Ambitia\Http\Routing;
 
-use Ambitia\Http\Routing\Contracts\DispatcherResult;
-use Ambitia\Http\Routing\Contracts\RouteContract;
+use Ambitia\Contracts\Routing\DispatcherResultContract;
+use Ambitia\Contracts\Routing\RouteContract;
 use Ambitia\Http\Routing\FastRoute\FastRouteDispatcher;
 use Ambitia\Http\Routing\MatchRoute;
 use Ambitia\Http\Routing\Router;
@@ -50,7 +50,7 @@ class RouterSpec extends ObjectBehavior
         $this->route('GET', 'user.show', '/user/{user}', [IndexEntry::class, 'index']);
         $this->pattern('user', '\d+');
         $dispatch = $this->dispatch('GET', '/user/1');
-        $dispatch->shouldBeAnInstanceOf(DispatcherResult::class);
+        $dispatch->shouldBeAnInstanceOf(DispatcherResultContract::class);
     }
 
 }

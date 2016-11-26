@@ -1,10 +1,10 @@
 <?php namespace Ambitia\Input\Http\Symfony;
 
-use Ambitia\Input\Contracts\RequestContract;
-use Ambitia\Input\Http\Contracts\HttpRequest;
+use Ambitia\Contracts\Input\RequestContract;
+use Ambitia\Contracts\Input\HttpRequestContract;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
-class Request extends SymfonyRequest implements RequestContract, HttpRequest
+class Request extends SymfonyRequest implements RequestContract, HttpRequestContract
 {
 
     /**

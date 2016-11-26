@@ -1,6 +1,6 @@
 <?php
 
-namespace Ambitia\Output\Contracts;
+namespace Ambitia\Contracts\Output;
 
 
 interface ResponseContract

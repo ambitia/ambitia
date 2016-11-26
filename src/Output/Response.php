@@ -1,6 +1,6 @@
 <?php namespace Ambitia\Output;
 
-use Ambitia\Output\Contracts\ResponseContract;
+use Ambitia\Contracts\Output\ResponseContract;
 
 class Response implements ResponseContract
 {

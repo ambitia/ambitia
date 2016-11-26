@@ -2,7 +2,7 @@
 
 namespace spec\Ambitia\Http\Routing;
 
-use Ambitia\Http\Routing\Contracts\RouteContract;
+use Ambitia\Contracts\Routing\RouteContract;
 use Ambitia\Http\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Ambitia\Example\Test\IndexEntry;

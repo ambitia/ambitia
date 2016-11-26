@@ -1,8 +1,8 @@
 <?php namespace Ambitia\Http\Routing\FastRoute;
 
-use Ambitia\Http\Routing\Contracts\DispatcherContract;
-use Ambitia\Http\Routing\Contracts\DispatcherResult;
-use Ambitia\Http\Routing\Contracts\RouteContract;
+use Ambitia\Contracts\Routing\DispatcherContract;
+use Ambitia\Contracts\Routing\DispatcherResultContract;
+use Ambitia\Contracts\Routing\RouteContract;
 use FastRoute\RouteCollector;
 
 class FastRouteDispatcher implements DispatcherContract
@@ -21,7 +21,7 @@ class FastRouteDispatcher implements DispatcherContract
     /**
      * @inheritDoc
      */
-    public function dispatch(string $method, string $uri) : DispatcherResult
+    public function dispatch(string $method, string $uri) : DispatcherResultContract
     {
         $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) {
             /** @var RouteContract $route */
@@ -55,10 +55,9 @@ class FastRouteDispatcher implements DispatcherContract
             return '';
         }
 
-        $uri = '';
+        $uri = $parts[0];
         foreach ($parts as $key => &$part) {
             if ($key === 0) {
-                $uri .= $part;
                 continue;
             }
             if (strpos($part, '{') > -1 && strpos($part, '}') > -1) {

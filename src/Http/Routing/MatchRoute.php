@@ -1,20 +1,20 @@
 <?php namespace Ambitia\Http\Routing;
 
-use Ambitia\Http\Routing\Contracts\DispatcherResult;
-use Ambitia\Http\Routing\Contracts\RouteMatcher;
+use Ambitia\Contracts\Routing\DispatcherResultContract;
+use Ambitia\Contracts\Routing\RouteMatcherContract;
 use Ambitia\Http\Routing\Exceptions\ClassNotFound;
 use Ambitia\Http\Routing\Exceptions\HttpMethodNotAllowed;
 use Ambitia\Http\Routing\Exceptions\HttpNotFound;
 use Ambitia\Http\Routing\Exceptions\MethodNotFound;
-use Ambitia\Output\Contracts\ResponseContract;
+use Ambitia\Contracts\Output\ResponseContract;
 
-class MatchRoute implements RouteMatcher
+class MatchRoute implements RouteMatcherContract
 {
 
     /**
      * @inheritDoc
      */
-    public function match(DispatcherResult $result, ResponseContract $response) : ResponseContract
+    public function match(DispatcherResultContract $result, ResponseContract $response) : ResponseContract
     {
         switch ($result->getStatus()) {
             case $result::METHOD_NOT_ALLOWED:

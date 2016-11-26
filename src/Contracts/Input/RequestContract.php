@@ -1,6 +1,6 @@
 <?php
 
-namespace Ambitia\Input\Contracts;
+namespace Ambitia\Contracts\Input;
 
 interface RequestContract
 {

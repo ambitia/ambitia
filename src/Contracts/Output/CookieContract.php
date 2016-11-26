@@ -1,7 +1,6 @@
 <?php
 
-namespace Ambitia\Frame\Connectors;
-
+namespace Ambitia\Contracts\Output;
 
 interface CookieContract
 {
@@ -14,18 +13,18 @@ interface CookieContract
      * @param string|null $domain
      * @param bool $secure
      * @param bool $httpOnly
-     * @return Cookie
+     * @return void
      */
     public function make(string $name, string $value, int $minutes, string $path = null,
                          string $domain = null, bool $secure = false,
-                         bool $httpOnly = true) : Cookie;
+                         bool $httpOnly = true);
 
     /**
      * Expire cookie.
      * @param string $name
      * @param string|null $path
      * @param string|null $domain
-     * @return Cookie
+     * @return void
      */
-    public function forget(string $name, string $path = null, string $domain = null) : Cookie;
+    public function forget(string $name, string $path = null, string $domain = null);
 }

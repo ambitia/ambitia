@@ -1,8 +1,7 @@
 <?php
 
-namespace Ambitia\Output\Http\Contracts;
+namespace Ambitia\Contracts\Output;
 
-use Ambitia\Frame\Connectors\CookieContract;
 use Ambitia\Output\ResponseContract;
 
 interface HttpResponseContract extends ResponseContract
@@ -43,7 +42,7 @@ interface HttpResponseContract extends ResponseContract
 
     /**
      * Add a cookie to te response
-     * @param CookieContract $cookie
+     * @param \Ambitia\Contracts\Output\CookieContract $cookie
      * @return HttpResponseContract
      */
     function addCookie(CookieContract $cookie) : HttpResponseContract;

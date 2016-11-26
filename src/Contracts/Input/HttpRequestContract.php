@@ -1,9 +1,9 @@
 <?php
 
-namespace Ambitia\Input\Http\Contracts;
+namespace Ambitia\Contracts\Input;
 
 
-interface HttpRequest
+interface HttpRequestContract
 {
     /**
      * Return url without domain and query

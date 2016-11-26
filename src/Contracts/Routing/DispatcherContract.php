@@ -1,10 +1,10 @@
-<?php namespace Ambitia\Http\Routing\Contracts;
+<?php namespace Ambitia\Contracts\Routing;
 
 
 interface DispatcherContract
 {
     /**
-     * @param \Ambitia\Http\Routing\Contracts\RouteContract[] $routes
+     * @param \Ambitia\Contracts\Routing\RouteContract[] $routes
      * @return void
      */
     function setRoutes(array $routes);
@@ -18,7 +18,7 @@ interface DispatcherContract
     /**
      * @param string $method
      * @param string $uri
-     * @return DispatcherResult
+     * @return DispatcherResultContract
      */
-    function dispatch(string $method, string $uri) : DispatcherResult;
+    function dispatch(string $method, string $uri) : DispatcherResultContract;
 }

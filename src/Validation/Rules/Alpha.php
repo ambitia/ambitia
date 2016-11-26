@@ -1,8 +1,8 @@
 <?php namespace Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\RuleValidator;
+use Ambitia\Contracts\Validation\RuleContract;
 
-class Alpha extends \Respect\Validation\Rules\Alpha implements RuleValidator
+class Alpha extends \Respect\Validation\Rules\Alpha implements RuleContract
 {
     public function validate($input) : bool
     {

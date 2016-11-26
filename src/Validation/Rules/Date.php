@@ -1,8 +1,8 @@
 <?php namespace Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\RuleValidator;
+use Ambitia\Contracts\Validation\RuleContract;
 
-class Date extends \Respect\Validation\Rules\Date implements RuleValidator
+class Date extends \Respect\Validation\Rules\Date implements RuleContract
 {
     public function __construct($format = null)
     {

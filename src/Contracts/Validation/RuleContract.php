@@ -1,7 +1,7 @@
-<?php namespace Ambitia\Contracts;
+<?php namespace Ambitia\Contracts\Validation;
 
 
-interface RuleValidator
+interface RuleContract
 {
     /**
      * @param mixed $input

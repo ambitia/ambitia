@@ -1,6 +1,6 @@
 <?php
 
-namespace Ambitia\Http\Routing\Contracts;
+namespace Ambitia\Contracts\Routing;
 
 interface RouterContract
 {
@@ -17,9 +17,9 @@ interface RouterContract
      * Dispatch route dispatcher and match the route
      * @param string $method
      * @param string $uri
-     * @return DispatcherResult
+     * @return DispatcherResultContract
      */
-    public function dispatch(string $method, string $uri) : DispatcherResult;
+    public function dispatch(string $method, string $uri) : DispatcherResultContract;
 
     /**
      * Add parameter patterns to internal storage

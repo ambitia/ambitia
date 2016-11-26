@@ -1,4 +1,4 @@
-<?php namespace Ambitia\Http\Routing\Contracts;
+<?php namespace Ambitia\Contracts\Routing;
 
 
 interface RouteContract
