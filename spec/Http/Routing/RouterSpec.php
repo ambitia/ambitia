@@ -7,8 +7,8 @@ use Ambitia\Contracts\Routing\RouteContract;
 use Ambitia\Http\Routing\FastRoute\FastRouteDispatcher;
 use Ambitia\Http\Routing\MatchRoute;
 use Ambitia\Http\Routing\Router;
-use Ambitia\Input\Http\Symfony\Request;
-use Ambitia\Output\Response;
+use Ambitia\Http\Input\Symfony\Request;
+use Ambitia\Http\Output\Response;
 use PhpSpec\ObjectBehavior;
 use Ambitia\Example\Test\IndexEntry;
 

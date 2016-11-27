@@ -3,7 +3,7 @@
 namespace Ambitia\Contracts\Input;
 
 
-interface HttpRequestContract
+interface HttpRequestContract extends RequestContract
 {
     /**
      * Return url without domain and query

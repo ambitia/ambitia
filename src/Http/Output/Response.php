@@ -1,4 +1,4 @@
-<?php namespace Ambitia\Output;
+<?php namespace Ambitia\Http\Output;
 
 use Ambitia\Contracts\Output\ResponseContract;
 

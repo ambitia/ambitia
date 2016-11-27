@@ -3,9 +3,10 @@
 namespace Ambitia\Validation;
 
 use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Contracts\Validation\ValidatorContract;
 use Ambitia\Validation\Exceptions\InvalidRulesFormatException;
 
-class Validator implements \Ambitia\Contracts\Validation\Validator
+class Validator implements ValidatorContract
 {
     /**
      * Array of key value pairs, where key is an input name and it's value is going to

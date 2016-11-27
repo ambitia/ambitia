@@ -1,6 +1,6 @@
 <?php namespace Ambitia\Example\Test;
 
-use Ambitia\Output\Response;
+use Ambitia\Http\Output\Response;
 
 class IndexEntry
 {

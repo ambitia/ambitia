@@ -2,8 +2,6 @@
 
 namespace Ambitia\Contracts\Output;
 
-use Ambitia\Output\ResponseContract;
-
 interface HttpResponseContract extends ResponseContract
 {
     /**

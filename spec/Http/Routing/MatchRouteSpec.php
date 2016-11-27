@@ -10,7 +10,7 @@ use Ambitia\Http\Routing\Exceptions\HttpNotFound;
 use Ambitia\Http\Routing\Exceptions\MethodNotFound;
 use Ambitia\Http\Routing\FastRoute\FastRouteInfo;
 use Ambitia\Http\Routing\MatchRoute;
-use Ambitia\Output\Response;
+use Ambitia\Http\Output\Response;
 use PhpSpec\ObjectBehavior;
 
 class MatchRouteSpec extends ObjectBehavior

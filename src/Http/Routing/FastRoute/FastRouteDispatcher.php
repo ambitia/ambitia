@@ -21,7 +21,7 @@ class FastRouteDispatcher implements DispatcherContract
     /**
      * @inheritDoc
      */
-    public function dispatch(string $method, string $uri) : DispatcherResultContract
+    public function dispatch(string $method, string $uri): DispatcherResultContract
     {
         $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) {
             /** @var RouteContract $route */
@@ -76,7 +76,7 @@ class FastRouteDispatcher implements DispatcherContract
      * @param string $uri
      * @return string
      */
-    protected function stripFirstSlash(string $uri) : string
+    protected function stripFirstSlash(string $uri): string
     {
         if (strpos($uri, '/') === 0) {
             $uri = substr($uri, 1);
@@ -91,7 +91,7 @@ class FastRouteDispatcher implements DispatcherContract
      * @param string $part
      * @return string
      */
-    protected function addParamAndPatternToUri(string $uri, string $part) : string
+    protected function addParamAndPatternToUri(string $uri, string $part): string
     {
         $param = str_replace(['{', '}', '?'], '', $part);
         $pattern = !empty($this->patterns[$param]) ? sprintf(':%s', $this->patterns[$param]) : '';

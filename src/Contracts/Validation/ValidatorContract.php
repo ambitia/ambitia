@@ -5,7 +5,7 @@ namespace Ambitia\Contracts\Validation;
 /**
  * Validate values against certain rules (constraints)
  */
-interface Validator
+interface ValidatorContract
 {
 
     /**

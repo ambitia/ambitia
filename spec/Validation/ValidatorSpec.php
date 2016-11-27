@@ -3,6 +3,7 @@
 namespace spec\Ambitia\Validation;
 
 use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Contracts\Validation\ValidatorContract;
 use Ambitia\Validation\Exceptions\InvalidRulesFormatException;
 use Ambitia\Validation\Rules\Email;
 use Ambitia\Validation\Rules\Ip;
@@ -16,7 +17,7 @@ class ValidatorSpec extends ObjectBehavior
     {
         $this->beConstructedWith([]);
         $this->shouldHaveType(Validator::class);
-        $this->shouldImplement(\Ambitia\Contracts\Validation\Validator::class);
+        $this->shouldImplement(ValidatorContract::class);
     }
 
     function it_should_validate_single_field_single_rule()
