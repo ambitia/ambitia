@@ -76,7 +76,7 @@ class SQLBuilder implements QueryBuilder
      * @return string
      * @throws \Exception
      */
-    protected function chooseJoinType($type = self::JOIN_INNER)
+    protected function chooseJoinType($type = self::JOIN_INNER): string
     {
         switch ($type) {
             case self::JOIN_LEFT:
@@ -132,7 +132,7 @@ class SQLBuilder implements QueryBuilder
      * @param string $sign
      * @return string
      */
-    protected function chooseWhereSign(string $sign)
+    protected function chooseWhereSign(string $sign): string
     {
         switch ($sign) {
             case self::SIGN_AND:
@@ -170,7 +170,7 @@ class SQLBuilder implements QueryBuilder
      *
      * @return SQLBuilder
      */
-    protected function cloneQueryBuilder()
+    protected function cloneQueryBuilder(): SQLBuilder
     {
         $query = clone $this;
         $query->builder = clone $this->builder;
@@ -205,7 +205,7 @@ class SQLBuilder implements QueryBuilder
      */
     public function groupBy($groups): QueryBuilder
     {
-        $this->builder->groupBy((array)$groups);
+        $this->builder->groupBy((array) $groups);
 
         return $this;
     }
@@ -284,9 +284,9 @@ class SQLBuilder implements QueryBuilder
      * Replace named (:bind) and positional (?) bindings in the query
      *
      * @param string $query
-     * @return mixed|string
+     * @return string
      */
-    protected function replaceBindings(string $query)
+    protected function replaceBindings(string $query): string
     {
         $bindings = $this->builder->getParameters();
         $numeric = [];
@@ -308,9 +308,9 @@ class SQLBuilder implements QueryBuilder
      *
      * @param string $query
      * @param array $numeric
-     * @return mixed|string
+     * @return string
      */
-    protected function replaceNumericBinginds(string $query, array $numeric)
+    protected function replaceNumericBinginds(string $query, array $numeric): string
     {
         foreach ($numeric as $binding) {
             $query = preg_replace('/\?/', $binding, $query, 1);
@@ -326,7 +326,7 @@ class SQLBuilder implements QueryBuilder
      * @param bool $bindPlaceholders
      * @return string
      */
-    protected function applyUnions(string $query, $bindPlaceholders = true)
+    protected function applyUnions(string $query, $bindPlaceholders = true): string
     {
         foreach ($this->unions as $union) {
             /** @var SQLBuilder $uQuery */
