@@ -135,11 +135,11 @@ class SQLBuilder implements QueryBuilder
     protected function chooseWhereSign(string $sign): string
     {
         switch ($sign) {
+            case self::SIGN_OR:
+                return 'orWhere';
             case self::SIGN_AND:
             default:
                 return 'andWhere';
-            case self::SIGN_OR:
-                return 'orWhere';
         }
     }
 

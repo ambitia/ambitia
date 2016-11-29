@@ -3,6 +3,7 @@
 namespace spec\Ambitia\Database\SQL;
 
 use Ambitia\Contracts\Database\QueryBuilder;
+use Ambitia\Database\SQL\Exceptions\InvalidOrderDirectionException;
 use Ambitia\Database\SQL\SQLBuilder;
 use Ambitia\Database\SQL\Exceptions\InvalidJoinException;
 use Ambitia\Database\SQL\Exceptions\UnsupportedJoinException;
@@ -152,6 +153,11 @@ class SQLBuilderSpec extends ObjectBehavior
             ->orderBy('id', QueryBuilder::DIRECTION_DESC)
             ->toSql()
             ->shouldReturn('SELECT * FROM table t ORDER BY name ASC, id DESC');
+    }
+
+    function it_should_throw_exception_on_invalid_sorting()
+    {
+        $this->shouldThrow(new InvalidOrderDirectionException('ABCD'))->during('orderBy', ['name', 'abcd']);
     }
 
     function it_should_limit_query_results()
