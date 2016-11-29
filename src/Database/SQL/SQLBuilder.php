@@ -79,9 +79,6 @@ class SQLBuilder implements QueryBuilder
     protected function chooseJoinType($type = self::JOIN_INNER)
     {
         switch ($type) {
-            case self::JOIN_INNER:
-            default:
-                return 'innerJoin';
             case self::JOIN_LEFT:
                 return 'leftJoin';
             case self::JOIN_RIGHT:
@@ -89,6 +86,9 @@ class SQLBuilder implements QueryBuilder
             case self::JOIN_CROSS:
             case self::JOIN_FULL:
                 throw new UnsupportedJoinException();
+            case self::JOIN_INNER:
+            default:
+                return 'innerJoin';
         }
     }
 
