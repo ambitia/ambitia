@@ -102,7 +102,7 @@ class SQLBuilder implements QueryBuilder
         }
 
         $type = $this->chooseWhereSign($sign);
-        $placeholder = $this->builder->createPositionalParameter($value);
+        $placeholder = $this->builder->createNamedParameter($value);
         $this->builder->{$type}(sprintf('%s %s %s', $column, $operator, $placeholder));
 
         return $this;
@@ -118,7 +118,7 @@ class SQLBuilder implements QueryBuilder
         $placeholders = [];
         foreach ($value as $v) {
             $paramType = is_numeric($v) ? \PDO::PARAM_INT : \PDO::PARAM_STR;
-            $placeholders[] = $this->builder->createPositionalParameter($v, $paramType);
+            $placeholders[] = $this->builder->createNamedParameter($v, $paramType);
         }
 
         $this->builder->{$type}(sprintf('%s IN (%s)', $column, implode(',', $placeholders)));
@@ -297,10 +297,10 @@ class SQLBuilder implements QueryBuilder
                 continue;
             }
 
-            $query = str_replace($index, $binding, $query);
+            $query = str_replace(':'.$index, $binding, $query);
         }
 
-        return $this->replaceNumericBinginds($query, $numeric);
+        return $this->replaceNumericBindinds($query, $numeric);
     }
 
     /**
@@ -310,7 +310,7 @@ class SQLBuilder implements QueryBuilder
      * @param array $numeric
      * @return string
      */
-    protected function replaceNumericBinginds(string $query, array $numeric): string
+    protected function replaceNumericBindinds(string $query, array $numeric): string
     {
         foreach ($numeric as $binding) {
             $query = preg_replace('/\?/', $binding, $query, 1);
@@ -339,4 +339,35 @@ class SQLBuilder implements QueryBuilder
         return $query;
     }
 
+    /**
+     * Get all bindings, from base query and all unions.
+     *
+     * @return array
+     */
+    protected function allBindings(): array
+    {
+        $params = $this->builder->getParameters();
+
+        foreach ($this->unions as $union) {
+            /** @var SQLBuilder $uQuery */
+            $uQuery = $union['query'];
+            $params = array_merge($params, $uQuery->builder->getParameters());
+        }
+
+        return $params;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function get(int $fetchMode = \PDO::FETCH_ASSOC)
+    {
+        $connection = $this->builder->getConnection();
+        $connection->setFetchMode($fetchMode);
+
+        $sql = $this->toSql(false);
+        $bindings = $this->allBindings();
+
+        return $connection->fetchAll($sql, $bindings);
+    }
 }

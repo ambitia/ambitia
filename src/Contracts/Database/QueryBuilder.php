@@ -160,4 +160,12 @@ interface QueryBuilder
      * @return string
      */
     public function toSql($bindPlaceholders = true): string;
+
+    /**
+     * Run the query
+     *
+     * @param int $fetchMode
+     * @return mixed
+     */
+    public function get(int $fetchMode = \PDO::FETCH_ASSOC);
 }

@@ -15,6 +15,9 @@ class SQLBuilderSpec extends ObjectBehavior
     function let()
     {
         $connection = DriverManager::getConnection([
+            'user' => '',
+            'password' => '',
+            'path' => __DIR__ . '/../../data/test.sqlite',
             'driver' => 'pdo_sqlite'
         ]);
         $this->beConstructedWith(
@@ -86,7 +89,7 @@ class SQLBuilderSpec extends ObjectBehavior
             ->where('t.col1', '=', 1)
             ->where('t.col2', '>', 'cosmos', QueryBuilder::SIGN_OR)
             ->toSql(false)
-            ->shouldReturn('SELECT * FROM table t WHERE (t.col1 = ?) OR (t.col2 > ?)');
+            ->shouldReturn('SELECT * FROM table t WHERE (t.col1 = :dcValue1) OR (t.col2 > :dcValue2)');
 
         $this->toSql()
             ->shouldReturn('SELECT * FROM table t WHERE (t.col1 = 1) OR (t.col2 > cosmos)');
@@ -102,7 +105,7 @@ class SQLBuilderSpec extends ObjectBehavior
             ->where('t.col1', 'IN', [0, 1, 2])
             ->where('t.col2', 'IN', compact('a', 'b'))
             ->toSql(false)
-            ->shouldReturn('SELECT * FROM table t WHERE (t.col1 IN (?,?,?)) AND (t.col2 IN (?,?))');
+            ->shouldReturn('SELECT * FROM table t WHERE (t.col1 IN (:dcValue1,:dcValue2,:dcValue3)) AND (t.col2 IN (:dcValue4,:dcValue5))');
 
         $this->toSql(true)
             ->shouldReturn('SELECT * FROM table t WHERE (t.col1 IN (0,1,2)) AND (t.col2 IN (1,2))');
@@ -219,6 +222,38 @@ class SQLBuilderSpec extends ObjectBehavior
             ->union($builder)
             ->toSql()
             ->shouldReturn('SELECT t.a, t.b FROM table t UNION ALL SELECT t.a, t.b FROM table t UNION SELECT t.a, t.b FROM table t');
+    }
+
+    function it_should_execute_queries_and_return_results()
+    {
+        $this->from('user', 'u')
+            ->whereIn('id', [1, 2])
+            ->get()
+            ->shouldReturn([
+                ['id' => '1', 'name' => 'test2'],
+                ['id' => '2', 'name' => 'test3']
+            ]);
+    }
+
+    function it_should_fetch_objects()
+    {
+        $result1 = new \stdClass();
+        $result1->id = '1';
+        $result1->name = 'test2';
+
+        $result2 = new \stdClass();
+        $result2->id = '2';
+        $result2->name = 'test3';
+
+        $this->from('user', 'u')
+            ->select(['id', 'name'])
+            ->where('id', '=', 1)
+            ->where('name', 'like', '%test3%', QueryBuilder::SIGN_OR)
+            ->get(\PDO::FETCH_OBJ)
+            ->shouldBeLike([
+                $result1,
+                $result2
+            ]);
     }
 
 }
