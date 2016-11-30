@@ -1,12 +1,12 @@
 <?php namespace Ambitia\Database\SQL;
 
-use Ambitia\Contracts\Database\QueryBuilder;
+use Ambitia\Contracts\Database\QueryBuilderContract;
 use Ambitia\Database\SQL\Exceptions\InvalidJoinException;
 use Ambitia\Database\SQL\Exceptions\InvalidOrderDirectionException;
 use Ambitia\Database\SQL\Exceptions\UnsupportedJoinException;
 use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
 
-class SQLBuilder implements QueryBuilder
+class SQLBuilder implements QueryBuilderContract
 {
     /**
      * @var DoctrineQueryBuilder
@@ -32,7 +32,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function select(array $columns = ['*']): QueryBuilder
+    public function select(array $columns = ['*']): QueryBuilderContract
     {
         $this->builder->select(...$columns);
 
@@ -42,7 +42,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function from(string $table, string $alias = null): QueryBuilder
+    public function from(string $table, string $alias = null): QueryBuilderContract
     {
         $this->builder->from($table, $alias);
 
@@ -52,7 +52,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function join(string $table, string $condition, string $type = self::JOIN_INNER): QueryBuilder
+    public function join(string $table, string $condition, string $type = self::JOIN_INNER): QueryBuilderContract
     {
         $name = explode(' ', $table);
         $alias = !empty($name[1]) ? $name[1] : substr($table, 0, 2);
@@ -95,7 +95,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function where(string $column, string $operator, $value, string $sign = self::SIGN_AND): QueryBuilder
+    public function where(string $column, string $operator, $value, string $sign = self::SIGN_AND): QueryBuilderContract
     {
         if (is_array($value)) {
             return $this->whereIn($column, $value, $sign);
@@ -111,7 +111,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function whereIn(string $column, array $value, string $sign = self::SIGN_AND): QueryBuilder
+    public function whereIn(string $column, array $value, string $sign = self::SIGN_AND): QueryBuilderContract
     {
         $type = $this->chooseWhereSign($sign);
 
@@ -146,7 +146,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function whereNested(\Closure $callback, $sign = self::SIGN_AND): QueryBuilder
+    public function whereNested(\Closure $callback, $sign = self::SIGN_AND): QueryBuilderContract
     {
         $type = $this->chooseWhereSign($sign);
         $query = $this->cloneQueryBuilder();
@@ -182,7 +182,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function whereNull(string $column, string $sign = self::SIGN_AND, bool $not = false): QueryBuilder
+    public function whereNull(string $column, string $sign = self::SIGN_AND, bool $not = false): QueryBuilderContract
     {
         $type = $this->chooseWhereSign($sign);
         $this->builder->{$type}(sprintf('%s IS %s', $column, $not ? 'NOT NULL' : 'NULL'));
@@ -193,7 +193,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function whereNotNull(string $column, string $sign = self::SIGN_AND): QueryBuilder
+    public function whereNotNull(string $column, string $sign = self::SIGN_AND): QueryBuilderContract
     {
         $this->whereNull($column, $sign, true);
 
@@ -203,7 +203,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function groupBy($groups): QueryBuilder
+    public function groupBy($groups): QueryBuilderContract
     {
         $this->builder->groupBy((array) $groups);
 
@@ -213,7 +213,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function having(string $column, string $operator, $value, $sign = self::SIGN_AND): QueryBuilder
+    public function having(string $column, string $operator, $value, $sign = self::SIGN_AND): QueryBuilderContract
     {
         $this->builder->having(sprintf('%s %s %s', $column, $operator, $value));
 
@@ -223,7 +223,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function orderBy(string $column, $direction = self::DIRECTION_ASC): QueryBuilder
+    public function orderBy(string $column, $direction = self::DIRECTION_ASC): QueryBuilderContract
     {
         $direction = strtoupper($direction);
         if (!in_array($direction, [self::DIRECTION_ASC, self::DIRECTION_DESC])) {
@@ -238,7 +238,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function limit(int $value): QueryBuilder
+    public function limit(int $value): QueryBuilderContract
     {
         $this->builder->setMaxResults($value);
 
@@ -248,7 +248,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function offset(int $value): QueryBuilder
+    public function offset(int $value): QueryBuilderContract
     {
         $this->builder->setFirstResult($value);
 
@@ -258,7 +258,7 @@ class SQLBuilder implements QueryBuilder
     /**
      * @inheritDoc
      */
-    public function union(QueryBuilder $query, bool $all = false): QueryBuilder
+    public function union(QueryBuilderContract $query, bool $all = false): QueryBuilderContract
     {
         $this->unions[] = compact('query', 'all');
 
@@ -297,7 +297,7 @@ class SQLBuilder implements QueryBuilder
                 continue;
             }
 
-            $query = str_replace(':'.$index, $binding, $query);
+            $query = str_replace(':' . $index, $binding, $query);
         }
 
         return $this->replaceNumericBindinds($query, $numeric);
@@ -369,5 +369,28 @@ class SQLBuilder implements QueryBuilder
         $bindings = $this->allBindings();
 
         return $connection->fetchAll($sql, $bindings);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function project(string $model)
+    {
+        $connection = $this->builder->getConnection();
+        $query = $this->toSql(false);
+        $params = $this->allBindings();
+        return $connection->project($query, $params, function (array $row) use ($model) {
+            $object = new $model();
+            foreach ($row as $column => $value) {
+                $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $column)));
+                if (method_exists($object, $setter)) {
+                    $object->{$setter}($value);
+                    continue;
+                }
+                $object->{$column} = $value;
+            }
+
+            return $object;
+        });
     }
 }

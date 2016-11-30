@@ -2,11 +2,12 @@
 
 namespace spec\Ambitia\Database\SQL;
 
-use Ambitia\Contracts\Database\QueryBuilder;
+use Ambitia\Contracts\Database\QueryBuilderContract;
 use Ambitia\Database\SQL\Exceptions\InvalidOrderDirectionException;
 use Ambitia\Database\SQL\SQLBuilder;
 use Ambitia\Database\SQL\Exceptions\InvalidJoinException;
 use Ambitia\Database\SQL\Exceptions\UnsupportedJoinException;
+use Ambitia\Example\Test\User;
 use Doctrine\DBAL\DriverManager;
 use PhpSpec\ObjectBehavior;
 
@@ -28,7 +29,7 @@ class SQLBuilderSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(SQLBuilder::class);
-        $this->shouldImplement(QueryBuilder::class);
+        $this->shouldImplement(QueryBuilderContract::class);
     }
 
     function it_should_return_sql_string()
@@ -60,11 +61,11 @@ class SQLBuilderSpec extends ObjectBehavior
             ->toSql()
             ->shouldReturn('SELECT * FROM user u INNER JOIN product p ON p.user_id = u.id');
 
-        $this->join('company c', 'c.id = p.company_id', QueryBuilder::JOIN_LEFT)
+        $this->join('company c', 'c.id = p.company_id', QueryBuilderContract::JOIN_LEFT)
             ->toSql()
             ->shouldReturn('SELECT * FROM user u INNER JOIN product p ON p.user_id = u.id LEFT JOIN company c ON c.id = p.company_id');
 
-        $this->join('company c2', 'c2.id = p.company_id', QueryBuilder::JOIN_RIGHT)
+        $this->join('company c2', 'c2.id = p.company_id', QueryBuilderContract::JOIN_RIGHT)
             ->toSql()
             ->shouldReturn('SELECT * FROM user u INNER JOIN product p ON p.user_id = u.id LEFT JOIN company c ON c.id = p.company_id RIGHT JOIN company c2 ON c2.id = p.company_id');
     }
@@ -76,10 +77,10 @@ class SQLBuilderSpec extends ObjectBehavior
 
         $this->from('table', 't');
         $this->shouldThrow(UnsupportedJoinException::class)
-            ->during('join', ['user u', 'u.id = 1', QueryBuilder::JOIN_CROSS]);
+            ->during('join', ['user u', 'u.id = 1', QueryBuilderContract::JOIN_CROSS]);
 
         $this->shouldThrow(UnsupportedJoinException::class)
-            ->during('join', ['user u', 'u.id = 1', QueryBuilder::JOIN_FULL]);
+            ->during('join', ['user u', 'u.id = 1', QueryBuilderContract::JOIN_FULL]);
     }
 
     function it_should_allow_simple_where_conditions()
@@ -87,7 +88,7 @@ class SQLBuilderSpec extends ObjectBehavior
         $this->from('table', 't')
             ->select()
             ->where('t.col1', '=', 1)
-            ->where('t.col2', '>', 'cosmos', QueryBuilder::SIGN_OR)
+            ->where('t.col2', '>', 'cosmos', QueryBuilderContract::SIGN_OR)
             ->toSql(false)
             ->shouldReturn('SELECT * FROM table t WHERE (t.col1 = :dcValue1) OR (t.col2 > :dcValue2)');
 
@@ -143,7 +144,7 @@ class SQLBuilderSpec extends ObjectBehavior
     {
         $this->from('table', 't')
             ->select()
-            ->orderBy('name', QueryBuilder::DIRECTION_ASC)
+            ->orderBy('name', QueryBuilderContract::DIRECTION_ASC)
             ->toSql()
             ->shouldReturn('SELECT * FROM table t ORDER BY name ASC');
     }
@@ -152,8 +153,8 @@ class SQLBuilderSpec extends ObjectBehavior
     {
         $this->from('table', 't')
             ->select()
-            ->orderBy('name', QueryBuilder::DIRECTION_ASC)
-            ->orderBy('id', QueryBuilder::DIRECTION_DESC)
+            ->orderBy('name', QueryBuilderContract::DIRECTION_ASC)
+            ->orderBy('id', QueryBuilderContract::DIRECTION_DESC)
             ->toSql()
             ->shouldReturn('SELECT * FROM table t ORDER BY name ASC, id DESC');
     }
@@ -198,9 +199,9 @@ class SQLBuilderSpec extends ObjectBehavior
         $this->from('table', 't')
             ->select()
             ->where('t.id', '>', 1)
-            ->whereNested(function (QueryBuilder $query) {
+            ->whereNested(function (QueryBuilderContract $query) {
                 $query->where('t.name', 'like', '%a%')
-                    ->where('t.name', 'like', '%b', QueryBuilder::SIGN_OR);
+                    ->where('t.name', 'like', '%b', QueryBuilderContract::SIGN_OR);
             })
             ->toSql()
             ->shouldReturn('SELECT * FROM table t WHERE (t.id > 1) AND ((t.name like %a%) OR (t.name like %b))');
@@ -248,8 +249,29 @@ class SQLBuilderSpec extends ObjectBehavior
         $this->from('user', 'u')
             ->select(['id', 'name'])
             ->where('id', '=', 1)
-            ->where('name', 'like', '%test3%', QueryBuilder::SIGN_OR)
+            ->where('name', 'like', '%test3%', QueryBuilderContract::SIGN_OR)
             ->get(\PDO::FETCH_OBJ)
+            ->shouldBeLike([
+                $result1,
+                $result2
+            ]);
+    }
+
+    function it_should_project_onto_data_object()
+    {
+        $result1 = new User();
+        $result1->setId(1);
+        $result1->setName('test2');
+
+        $result2 = new User();
+        $result2->setId(2);
+        $result2->setName('test3');
+
+        $this->from('user', 'u')
+            ->select(['id', 'name'])
+            ->where('id', '=', 1)
+            ->where('name', 'like', '%test3%', QueryBuilderContract::SIGN_OR)
+            ->project(User::class)
             ->shouldBeLike([
                 $result1,
                 $result2
