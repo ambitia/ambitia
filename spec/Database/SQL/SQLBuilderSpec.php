@@ -7,7 +7,7 @@ use Ambitia\Database\SQL\Exceptions\InvalidOrderDirectionException;
 use Ambitia\Database\SQL\SQLBuilder;
 use Ambitia\Database\SQL\Exceptions\InvalidJoinException;
 use Ambitia\Database\SQL\Exceptions\UnsupportedJoinException;
-use Ambitia\Example\Test\User;
+use Ambitia\Database\Example\User;
 use Doctrine\DBAL\DriverManager;
 use PhpSpec\ObjectBehavior;
 
@@ -250,7 +250,7 @@ class SQLBuilderSpec extends ObjectBehavior
             ->select(['id', 'name'])
             ->where('id', '=', 1)
             ->where('name', 'like', '%test3%', QueryBuilderContract::SIGN_OR)
-            ->get(\PDO::FETCH_OBJ)
+            ->get(null, \PDO::FETCH_OBJ)
             ->shouldBeLike([
                 $result1,
                 $result2
@@ -271,10 +271,33 @@ class SQLBuilderSpec extends ObjectBehavior
             ->select(['id', 'name'])
             ->where('id', '=', 1)
             ->where('name', 'like', '%test3%', QueryBuilderContract::SIGN_OR)
-            ->project(User::class)
+            ->get(User::class)
             ->shouldBeLike([
                 $result1,
                 $result2
+            ]);
+    }
+
+    function it_should_paginate_result()
+    {
+        $result1 = new User();
+        $result1->setId('0');
+        $result1->setName('test');
+
+        $result2 = new User();
+        $result2->setId('1');
+        $result2->setName('test2');
+
+        $this->from('user', 'u')
+            ->select(['id', 'name'])
+            ->where('name', 'like', '%test%')
+            ->orderBy('id', 'asc')
+            ->paginate(User::class, 1, 2)
+            ->shouldBeLike([
+                'data' => [$result1, $result2],
+                'records' => 3,
+                'page' => 1,
+                'perPage' => 2
             ]);
     }
 

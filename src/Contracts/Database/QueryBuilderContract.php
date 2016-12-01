@@ -1,7 +1,7 @@
 <?php namespace Ambitia\Contracts\Database;
 
 
-interface QueryBuilderContract
+interface QueryBuilderContract extends PaginatorContract
 {
     const JOIN_INNER = 'inner';
     const JOIN_LEFT = 'left';
@@ -22,10 +22,10 @@ interface QueryBuilderContract
      * Choose which columns to pull from database table.
      * If key of the array is not numeric, it should be used as an alias of the column.
      *
-     * @param array $columns
+     * @param mixed $columns
      * @return QueryBuilderContract
      */
-    public function select(array $columns = ['*']): QueryBuilderContract;
+    public function select($columns = '*'): QueryBuilderContract;
 
     /**
      * Choose table to which the query is targeting
@@ -162,19 +162,34 @@ interface QueryBuilderContract
     public function toSql($bindPlaceholders = true): string;
 
     /**
-     * Run the query
+     * Run the query. If $dataModelClass is passed, method project() will be invoked instead, to map query
+     * results onto an instance of a given class. Otherwise will return data formatted by PDO::fetchMode.
      *
+     * @param string $dataModelClass
      * @param int $fetchMode
      * @return mixed
      */
-    public function get(int $fetchMode = \PDO::FETCH_ASSOC);
+    public function get(string $dataModelClass = null, int $fetchMode = \PDO::FETCH_ASSOC);
+
+    /**
+     * Run the query and return first record that it match by the given conditions.
+     * If $dataModelClass is passed, method project() will be invoked instead, to map query
+     * results onto an instance of a given class. Otherwise will return data formatted by PDO::fetchMode.
+     *
+     * Returns null when no record is found.
+     *
+     * @param string $dataModelClass
+     * @param int $fetchMode
+     * @return mixed|null
+     */
+    public function first(string $dataModelClass = null, int $fetchMode = \PDO::FETCH_ASSOC);
 
     /**
      * Project data rows onto model class. When possible it will try to use camel cased setter
      * methods, and if not found, will try to assign onto object properties
      *
-     * @param string $model
+     * @param string $dataModelClass
      * @return mixed
      */
-    public function project(string $model);
+    public function project(string $dataModelClass);
 }

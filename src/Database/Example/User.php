@@ -1,4 +1,4 @@
-<?php namespace Ambitia\Example\Test;
+<?php namespace Ambitia\Database\Example;
 
 class User
 {

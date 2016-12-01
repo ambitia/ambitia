@@ -32,9 +32,13 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function select(array $columns = ['*']): QueryBuilderContract
+    public function select($columns = '*'): QueryBuilderContract
     {
-        $this->builder->select(...$columns);
+        if (is_array($columns)) {
+            $this->builder->select(...$columns);
+        } else {
+            $this->builder->select(func_get_args());
+        }
 
         return $this;
     }
@@ -360,8 +364,11 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function get(int $fetchMode = \PDO::FETCH_ASSOC)
+    public function get(string $dataModelClass = null, int $fetchMode = \PDO::FETCH_ASSOC)
     {
+        if (class_exists($dataModelClass)) {
+            return $this->project($dataModelClass);
+        }
         $connection = $this->builder->getConnection();
         $connection->setFetchMode($fetchMode);
 
@@ -374,13 +381,27 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function project(string $model)
+    public function first(string $dataModelClass = null, int $fetchMode = \PDO::FETCH_ASSOC)
+    {
+        $this->limit(1);
+        $record = $this->get($dataModelClass, $fetchMode);
+        if (empty($record[0])) {
+            return null;
+        }
+
+        return $record[0];
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function project(string $dataModelClass)
     {
         $connection = $this->builder->getConnection();
         $query = $this->toSql(false);
         $params = $this->allBindings();
-        return $connection->project($query, $params, function (array $row) use ($model) {
-            $object = new $model();
+        return $connection->project($query, $params, function (array $row) use ($dataModelClass) {
+            $object = new $dataModelClass();
             foreach ($row as $column => $value) {
                 $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $column)));
                 if (method_exists($object, $setter)) {
@@ -392,5 +413,28 @@ class SQLBuilder implements QueryBuilderContract
 
             return $object;
         });
+    }
+
+    /**
+     * Paginate internal list of records
+     *
+     * @param string $dataModelClass
+     * @param int $page
+     * @param int $perPage
+     * @return array
+     */
+    public function paginate(string $dataModelClass = null, int $page = 1, int $perPage = 20): array
+    {
+        $offset = ($page - 1) * $perPage;
+        $this->limit($perPage)->offset($offset);
+
+        $data = $this->get($dataModelClass);
+
+        $this->limit(PHP_INT_MAX)->offset(0);
+        $this->select('count(*) as records');
+
+        $records = (int) $this->first()['records'];
+
+        return compact('data', 'records', 'page', 'perPage');
     }
 }
