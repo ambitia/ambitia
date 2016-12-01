@@ -1,8 +1,8 @@
 <?php
 
-namespace Ambitia\Contracts\Input;
+namespace Ambitia\Interfaces\Input;
 
-interface ConsoleRequestContract extends RequestContract
+interface ConsoleRequestInterface extends RequestInterface
 {
     /**
      * Get name of the command. It will be used in CLI to execute it.

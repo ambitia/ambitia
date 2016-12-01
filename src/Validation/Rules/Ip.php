@@ -2,9 +2,9 @@
 
 namespace Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
 
-class Ip extends \Respect\Validation\Rules\Ip implements RuleContract
+class Ip extends \Respect\Validation\Rules\Ip implements RuleInterface
 {
     public function validate($input) : bool
     {

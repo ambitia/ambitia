@@ -1,9 +1,9 @@
 <?php
 
-namespace Ambitia\Contracts\Database;
+namespace Ambitia\Interfaces\Database;
 
 
-interface ResourceContract
+interface ResourceInterface
 {
     public function all(array $columns = ['*']);
 

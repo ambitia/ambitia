@@ -1,33 +1,33 @@
 <?php namespace Ambitia\Http\Routing;
 
-use Ambitia\Contracts\Routing\DispatcherContract;
-use Ambitia\Contracts\Routing\DispatcherResultContract;
-use Ambitia\Contracts\Routing\RouteContract;
-use Ambitia\Contracts\Routing\RouteMatcherContract;
-use Ambitia\Contracts\Routing\RouterContract;
-use Ambitia\Contracts\Input\HttpRequestContract;
-use Ambitia\Contracts\Output\ResponseContract;
+use Ambitia\Interfaces\Routing\DispatcherInterface;
+use Ambitia\Interfaces\Routing\DispatcherResultInterface;
+use Ambitia\Interfaces\Routing\RouteInterface;
+use Ambitia\Interfaces\Routing\RouteMatcherInterface;
+use Ambitia\Interfaces\Routing\RouterInterface;
+use Ambitia\Interfaces\Input\HttpRequestInterface;
+use Ambitia\Interfaces\Output\ResponseInterface;
 
-class Router implements RouterContract
+class Router implements RouterInterface
 {
     /**
      * Router dispatcher
-     * @var DispatcherContract
+     * @var DispatcherInterface
      */
     protected $dispatcher;
 
     /**
-     * @var HttpRequestContract
+     * @var HttpRequestInterface
      */
     protected $request;
 
     /**
-     * @var ResponseContract
+     * @var ResponseInterface
      */
     protected $response;
 
     /**
-     * @var RouteMatcherContract
+     * @var RouteMatcherInterface
      */
     protected $routeMatcher;
 
@@ -45,13 +45,13 @@ class Router implements RouterContract
 
     /**
      * Router constructor.
-     * @param DispatcherContract $dispatcher
-     * @param HttpRequestContract $request
-     * @param RouteMatcherContract $routeMatcher
-     * @param ResponseContract $response
+     * @param DispatcherInterface $dispatcher
+     * @param HttpRequestInterface $request
+     * @param RouteMatcherInterface $routeMatcher
+     * @param ResponseInterface $response
      */
-    public function __construct(DispatcherContract $dispatcher, HttpRequestContract $request,
-                                RouteMatcherContract $routeMatcher, ResponseContract $response)
+    public function __construct(DispatcherInterface $dispatcher, HttpRequestInterface $request,
+                                RouteMatcherInterface $routeMatcher, ResponseInterface $response)
     {
         $this->dispatcher = $dispatcher;
         $this->request = $request;
@@ -75,9 +75,9 @@ class Router implements RouterContract
      * Dispatch route dispatcher and match the route
      * @param string $method
      * @param string $uri
-     * @return DispatcherResultContract
+     * @return DispatcherResultInterface
      */
-    public function dispatch(string $method, string $uri) : DispatcherResultContract
+    public function dispatch(string $method, string $uri) : DispatcherResultInterface
     {
         $this->dispatcher->setRoutes($this->routes);
         $this->dispatcher->setPatterns($this->patterns);
@@ -98,9 +98,9 @@ class Router implements RouterContract
     /**
      * Get route instance by it's name
      * @param string $name
-     * @return RouteContract
+     * @return RouteInterface
      */
-    public function getRoute(string $name) : RouteContract
+    public function getRoute(string $name) : RouteInterface
     {
         return $this->routes[$name];
     }

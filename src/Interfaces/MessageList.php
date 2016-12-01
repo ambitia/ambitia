@@ -1,6 +1,6 @@
 <?php
 
-namespace Ambitia\Contracts;
+namespace Ambitia\Interfaces;
 
 /**
  * Holds messages grouped by string keys

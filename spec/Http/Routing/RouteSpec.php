@@ -2,7 +2,7 @@
 
 namespace spec\Ambitia\Http\Routing;
 
-use Ambitia\Contracts\Routing\RouteContract;
+use Ambitia\Interfaces\Routing\RouteInterface;
 use Ambitia\Http\Routing\Route;
 use PhpSpec\ObjectBehavior;
 use Ambitia\Example\Test\IndexEntry;
@@ -21,7 +21,7 @@ class RouteSpec extends ObjectBehavior
 
     function it_should_be_a_route()
     {
-        $this->shouldImplement(RouteContract::class);
+        $this->shouldImplement(RouteInterface::class);
     }
 
     function it_should_be_possible_to_get_back_data()

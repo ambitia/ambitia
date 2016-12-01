@@ -1,8 +1,8 @@
 <?php
 
-namespace Ambitia\Contracts\Console;
+namespace Ambitia\Interfaces\Console;
 
-interface ConsoleContract
+interface ConsoleInterface
 {
     /**
      * Set the name of the command. It will be used in console to run it.

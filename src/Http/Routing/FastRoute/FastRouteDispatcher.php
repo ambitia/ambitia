@@ -1,11 +1,11 @@
 <?php namespace Ambitia\Http\Routing\FastRoute;
 
-use Ambitia\Contracts\Routing\DispatcherContract;
-use Ambitia\Contracts\Routing\DispatcherResultContract;
-use Ambitia\Contracts\Routing\RouteContract;
+use Ambitia\Interfaces\Routing\DispatcherInterface;
+use Ambitia\Interfaces\Routing\DispatcherResultInterface;
+use Ambitia\Interfaces\Routing\RouteInterface;
 use FastRoute\RouteCollector;
 
-class FastRouteDispatcher implements DispatcherContract
+class FastRouteDispatcher implements DispatcherInterface
 {
 
     /**
@@ -21,10 +21,10 @@ class FastRouteDispatcher implements DispatcherContract
     /**
      * @inheritDoc
      */
-    public function dispatch(string $method, string $uri): DispatcherResultContract
+    public function dispatch(string $method, string $uri): DispatcherResultInterface
     {
         $dispatcher = \FastRoute\simpleDispatcher(function (RouteCollector $r) {
-            /** @var RouteContract $route */
+            /** @var RouteInterface $route */
             foreach ($this->routes as $route) {
                 $r->addRoute(
                     $route->getMethod(),

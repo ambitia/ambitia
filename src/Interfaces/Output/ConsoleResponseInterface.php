@@ -1,8 +1,8 @@
 <?php
 
-namespace Ambitia\Contracts\Output;
+namespace Ambitia\Interfaces\Output;
 
-interface ConsoleResponseContract extends ResponseContract
+interface ConsoleResponseInterface extends ResponseInterface
 {
     /**
      * Write single string message to the output

@@ -1,8 +1,8 @@
 <?php namespace Ambitia\Http\Output;
 
-use Ambitia\Contracts\Output\ResponseContract;
+use Ambitia\Interfaces\Output\ResponseInterface;
 
-class Response implements ResponseContract
+class Response implements ResponseInterface
 {
 
     protected $data;

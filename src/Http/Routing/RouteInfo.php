@@ -1,8 +1,8 @@
 <?php namespace Ambitia\Http\Routing;
 
-use Ambitia\Contracts\Routing\DispatcherResultContract;
+use Ambitia\Interfaces\Routing\DispatcherResultInterface;
 
-class RouteInfo implements DispatcherResultContract
+class RouteInfo implements DispatcherResultInterface
 {
     protected $status;
 

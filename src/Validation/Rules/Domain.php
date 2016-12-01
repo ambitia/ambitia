@@ -1,8 +1,8 @@
 <?php namespace Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
 
-class Domain extends \Respect\Validation\Rules\Domain implements RuleContract
+class Domain extends \Respect\Validation\Rules\Domain implements RuleInterface
 {
     public function validate($input) : bool
     {

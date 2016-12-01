@@ -1,12 +1,12 @@
 <?php namespace Ambitia\Database\SQL;
 
-use Ambitia\Contracts\Database\QueryBuilderContract;
+use Ambitia\Interfaces\Database\QueryBuilderInterface;
 use Ambitia\Database\SQL\Exceptions\InvalidJoinException;
 use Ambitia\Database\SQL\Exceptions\InvalidOrderDirectionException;
 use Ambitia\Database\SQL\Exceptions\UnsupportedJoinException;
 use Doctrine\DBAL\Query\QueryBuilder as DoctrineQueryBuilder;
 
-class SQLBuilder implements QueryBuilderContract
+class SQLBuilder implements QueryBuilderInterface
 {
     /**
      * @var DoctrineQueryBuilder
@@ -32,7 +32,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function select($columns = '*'): QueryBuilderContract
+    public function select($columns = '*'): QueryBuilderInterface
     {
         if (is_array($columns)) {
             $this->builder->select(...$columns);
@@ -46,7 +46,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function from(string $table, string $alias = null): QueryBuilderContract
+    public function from(string $table, string $alias = null): QueryBuilderInterface
     {
         $this->builder->from($table, $alias);
 
@@ -56,7 +56,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function join(string $table, string $condition, string $type = self::JOIN_INNER): QueryBuilderContract
+    public function join(string $table, string $condition, string $type = self::JOIN_INNER): QueryBuilderInterface
     {
         $name = explode(' ', $table);
         $alias = !empty($name[1]) ? $name[1] : substr($table, 0, 2);
@@ -99,7 +99,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function where(string $column, string $operator, $value, string $sign = self::SIGN_AND): QueryBuilderContract
+    public function where(string $column, string $operator, $value, string $sign = self::SIGN_AND): QueryBuilderInterface
     {
         if (is_array($value)) {
             return $this->whereIn($column, $value, $sign);
@@ -115,7 +115,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function whereIn(string $column, array $value, string $sign = self::SIGN_AND): QueryBuilderContract
+    public function whereIn(string $column, array $value, string $sign = self::SIGN_AND): QueryBuilderInterface
     {
         $type = $this->chooseWhereSign($sign);
 
@@ -150,7 +150,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function whereNested(\Closure $callback, $sign = self::SIGN_AND): QueryBuilderContract
+    public function whereNested(\Closure $callback, $sign = self::SIGN_AND): QueryBuilderInterface
     {
         $type = $this->chooseWhereSign($sign);
         $query = $this->cloneQueryBuilder();
@@ -186,7 +186,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function whereNull(string $column, string $sign = self::SIGN_AND, bool $not = false): QueryBuilderContract
+    public function whereNull(string $column, string $sign = self::SIGN_AND, bool $not = false): QueryBuilderInterface
     {
         $type = $this->chooseWhereSign($sign);
         $this->builder->{$type}(sprintf('%s IS %s', $column, $not ? 'NOT NULL' : 'NULL'));
@@ -197,7 +197,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function whereNotNull(string $column, string $sign = self::SIGN_AND): QueryBuilderContract
+    public function whereNotNull(string $column, string $sign = self::SIGN_AND): QueryBuilderInterface
     {
         $this->whereNull($column, $sign, true);
 
@@ -207,7 +207,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function groupBy($groups): QueryBuilderContract
+    public function groupBy($groups): QueryBuilderInterface
     {
         $this->builder->groupBy((array) $groups);
 
@@ -217,7 +217,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function having(string $column, string $operator, $value, $sign = self::SIGN_AND): QueryBuilderContract
+    public function having(string $column, string $operator, $value, $sign = self::SIGN_AND): QueryBuilderInterface
     {
         $this->builder->having(sprintf('%s %s %s', $column, $operator, $value));
 
@@ -227,7 +227,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function orderBy(string $column, $direction = self::DIRECTION_ASC): QueryBuilderContract
+    public function orderBy(string $column, $direction = self::DIRECTION_ASC): QueryBuilderInterface
     {
         $direction = strtoupper($direction);
         if (!in_array($direction, [self::DIRECTION_ASC, self::DIRECTION_DESC])) {
@@ -242,7 +242,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function limit(int $value): QueryBuilderContract
+    public function limit(int $value): QueryBuilderInterface
     {
         $this->builder->setMaxResults($value);
 
@@ -252,7 +252,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function offset(int $value): QueryBuilderContract
+    public function offset(int $value): QueryBuilderInterface
     {
         $this->builder->setFirstResult($value);
 
@@ -262,7 +262,7 @@ class SQLBuilder implements QueryBuilderContract
     /**
      * @inheritDoc
      */
-    public function union(QueryBuilderContract $query, bool $all = false): QueryBuilderContract
+    public function union(QueryBuilderInterface $query, bool $all = false): QueryBuilderInterface
     {
         $this->unions[] = compact('query', 'all');
 

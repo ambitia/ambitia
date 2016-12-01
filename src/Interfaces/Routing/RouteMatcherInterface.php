@@ -1,25 +1,25 @@
 <?php
 
-namespace Ambitia\Contracts\Routing;
+namespace Ambitia\Interfaces\Routing;
 
 use Ambitia\Http\Routing\Exceptions\ClassNotFound;
 use Ambitia\Http\Routing\Exceptions\HttpMethodNotAllowed;
 use Ambitia\Http\Routing\Exceptions\HttpNotFound;
 use Ambitia\Http\Routing\Exceptions\MethodNotFound;
-use Ambitia\Contracts\Output\ResponseContract;
+use Ambitia\Interfaces\Output\ResponseInterface;
 
-interface RouteMatcherContract
+interface RouteMatcherInterface
 {
     /**
      * Match http route to handler callback or throw exception
-     * @param DispatcherResultContract $routeInfo
-     * @param ResponseContract $response
+     * @param DispatcherResultInterface $routeInfo
+     * @param ResponseInterface $response
      * @throws HttpMethodNotAllowed
      * @throws HttpNotFound
      * @throws ClassNotFound
      * @throws MethodNotFound
-     * @return ResponseContract
+     * @return ResponseInterface
      */
-    function match(DispatcherResultContract $routeInfo, ResponseContract $response) : ResponseContract;
+    function match(DispatcherResultInterface $routeInfo, ResponseInterface $response) : ResponseInterface;
 
 }

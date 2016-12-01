@@ -1,8 +1,8 @@
 <?php
 
-namespace Ambitia\Contracts\Output;
+namespace Ambitia\Interfaces\Output;
 
-interface CookieContract
+interface CookieInterface
 {
     /**
      * Create a new cookie.

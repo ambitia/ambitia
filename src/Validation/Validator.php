@@ -2,11 +2,11 @@
 
 namespace Ambitia\Validation;
 
-use Ambitia\Contracts\Validation\RuleContract;
-use Ambitia\Contracts\Validation\ValidatorContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
+use Ambitia\Interfaces\Validation\ValidatorInterface;
 use Ambitia\Validation\Exceptions\InvalidRulesFormatException;
 
-class Validator implements ValidatorContract
+class Validator implements ValidatorInterface
 {
     /**
      * Array of key value pairs, where key is an input name and it's value is going to
@@ -27,7 +27,7 @@ class Validator implements ValidatorContract
 
     /**
      * Validator constructor.
-     * @param RuleContract[] $rules Array of rules assigned to field names.
+     * @param RuleInterface[] $rules Array of rules assigned to field names.
      */
     public function __construct(array $rules)
     {
@@ -100,7 +100,7 @@ class Validator implements ValidatorContract
                     sprintf('Field %s under validation should have an array of rules', $key)
                 );
             }
-            $this->checkIfClassImplementsContract($array);
+            $this->checkIfClassImplementsInterface($array);
         }
 
         return true;
@@ -113,16 +113,16 @@ class Validator implements ValidatorContract
      * @throws InvalidRulesFormatException
      * @return void
      */
-    protected function checkIfClassImplementsContract(array $rules)
+    protected function checkIfClassImplementsInterface(array $rules)
     {
         foreach ($rules as $key => $value) {
             $rule = $this->decideWhichIsRule($key, $value);
 
             $contracts = class_implements($rule);
-            if (!isset($contracts[RuleContract::class])) {
+            if (!isset($contracts[RuleInterface::class])) {
                 throw new InvalidRulesFormatException(
                     sprintf('Rule class %s does not implement required contract %s',
-                        $rule, RuleContract::class)
+                        $rule, RuleInterface::class)
                 );
             }
         }
@@ -144,9 +144,9 @@ class Validator implements ValidatorContract
      * @param string $rule
      * @param string|int $key
      * @param string $value
-     * @return RuleContract
+     * @return RuleInterface
      */
-    protected function createRuleObject($rule, $key, $value): RuleContract
+    protected function createRuleObject($rule, $key, $value): RuleInterface
     {
         if ($rule === $key) {
             return new $key($value);

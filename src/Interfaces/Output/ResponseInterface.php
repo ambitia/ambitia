@@ -1,9 +1,9 @@
 <?php
 
-namespace Ambitia\Contracts\Output;
+namespace Ambitia\Interfaces\Output;
 
 
-interface ResponseContract
+interface ResponseInterface
 {
     /**
      * Send response to the application consumer

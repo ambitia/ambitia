@@ -1,11 +1,11 @@
 <?php
 
-namespace Ambitia\Contracts\Validation;
+namespace Ambitia\Interfaces\Validation;
 
 /**
  * Validate values against certain rules (constraints)
  */
-interface ValidatorContract
+interface ValidatorInterface
 {
 
     /**

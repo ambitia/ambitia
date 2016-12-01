@@ -1,9 +1,9 @@
 <?php namespace Ambitia\Http\Input\Symfony;
 
-use Ambitia\Contracts\Input\HttpRequestContract;
+use Ambitia\Interfaces\Input\HttpRequestInterface;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
 
-class Request extends SymfonyRequest implements HttpRequestContract
+class Request extends SymfonyRequest implements HttpRequestInterface
 {
 
     /**

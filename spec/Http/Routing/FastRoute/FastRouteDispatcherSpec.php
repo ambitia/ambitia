@@ -2,7 +2,7 @@
 
 namespace spec\Ambitia\Http\Routing\FastRoute;
 
-use Ambitia\Contracts\Routing\DispatcherResultContract;
+use Ambitia\Interfaces\Routing\DispatcherResultInterface;
 use Ambitia\Http\Routing\FastRoute\FastRouteDispatcher;
 use Ambitia\Http\Routing\Route;
 use PhpSpec\ObjectBehavior;
@@ -22,14 +22,14 @@ class FastRouteDispatcherSpec extends ObjectBehavior
             new Route('DELETE', 'user.new', 'user/super/{user?}', [IndexEntry::class, 'index'])
         ]);
         $routeInfo = $this->dispatch('POST', 'user');
-        $routeInfo->shouldImplement(DispatcherResultContract::class);
-        $routeInfo->getStatus()->shouldReturn(DispatcherResultContract::FOUND);
+        $routeInfo->shouldImplement(DispatcherResultInterface::class);
+        $routeInfo->getStatus()->shouldReturn(DispatcherResultInterface::FOUND);
 
         $routeInfo = $this->dispatch('POST', 'user/1');
-        $routeInfo->getStatus()->shouldReturn(DispatcherResultContract::FOUND);
+        $routeInfo->getStatus()->shouldReturn(DispatcherResultInterface::FOUND);
 
         $routeInfo = $this->dispatch('DELETE', 'user/super/1');
-        $routeInfo->getStatus()->shouldReturn(DispatcherResultContract::FOUND);
+        $routeInfo->getStatus()->shouldReturn(DispatcherResultInterface::FOUND);
     }
 
     function it_should_work_when_cant_match()
@@ -38,10 +38,10 @@ class FastRouteDispatcherSpec extends ObjectBehavior
             new Route('POST', 'user.new', 'user/{user?}', [IndexEntry::class, 'index'])
         ]);
         $routeInfo = $this->dispatch('GET', 'user');
-        $routeInfo->getStatus()->shouldReturn(DispatcherResultContract::METHOD_NOT_ALLOWED);
+        $routeInfo->getStatus()->shouldReturn(DispatcherResultInterface::METHOD_NOT_ALLOWED);
 
         $routeInfo = $this->dispatch('POST', 'work');
-        $routeInfo->getStatus()->shouldReturn(DispatcherResultContract::NOT_FOUND);
+        $routeInfo->getStatus()->shouldReturn(DispatcherResultInterface::NOT_FOUND);
     }
 
     function it_should_default_to_slash_when_empty()
@@ -50,13 +50,13 @@ class FastRouteDispatcherSpec extends ObjectBehavior
             new Route('GET', 'user.new', '', [IndexEntry::class, 'index'])
         ]);
         $routeInfo = $this->dispatch('GET', '');
-        $routeInfo->getStatus()->shouldReturn(DispatcherResultContract::FOUND);
+        $routeInfo->getStatus()->shouldReturn(DispatcherResultInterface::FOUND);
 
         $this->setRoutes([
             new Route('GET', 'user.a', '/', [IndexEntry::class, 'index'])
         ]);
         $routeInfo = $this->dispatch('GET', '');
-        $routeInfo->getStatus()->shouldReturn(DispatcherResultContract::FOUND);
+        $routeInfo->getStatus()->shouldReturn(DispatcherResultInterface::FOUND);
     }
 
     function it_should_strip_trailing_slash_for_normalization()
@@ -65,7 +65,7 @@ class FastRouteDispatcherSpec extends ObjectBehavior
             new Route('GET', 'user.new', '/user', [IndexEntry::class, 'index'])
         ]);
         $routeInfo = $this->dispatch('GET', 'user');
-        $routeInfo->getStatus()->shouldReturn(DispatcherResultContract::FOUND);
+        $routeInfo->getStatus()->shouldReturn(DispatcherResultInterface::FOUND);
     }
 
     function it_should_work_with_multiple_params()
@@ -74,6 +74,6 @@ class FastRouteDispatcherSpec extends ObjectBehavior
             new Route('GET', 'user.new', '/user/{userId}/{groupId}', [IndexEntry::class, 'index'])
         ]);
         $routeInfo = $this->dispatch('GET', 'user/1/2');
-        $routeInfo->getStatus()->shouldReturn(DispatcherResultContract::FOUND);
+        $routeInfo->getStatus()->shouldReturn(DispatcherResultInterface::FOUND);
     }
 }

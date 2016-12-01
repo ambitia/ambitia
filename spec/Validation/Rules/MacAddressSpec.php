@@ -2,7 +2,7 @@
 
 namespace spec\Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
 use Ambitia\Validation\Rules\MacAddress;
 use PhpSpec\ObjectBehavior;
 
@@ -11,7 +11,7 @@ class MacAddressSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(MacAddress::class);
-        $this->shouldImplement(RuleContract::class);
+        $this->shouldImplement(RuleInterface::class);
     }
 
     function it_should_pass_on_valid_mac()

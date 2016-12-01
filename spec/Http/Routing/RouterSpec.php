@@ -2,8 +2,8 @@
 
 namespace spec\Ambitia\Http\Routing;
 
-use Ambitia\Contracts\Routing\DispatcherResultContract;
-use Ambitia\Contracts\Routing\RouteContract;
+use Ambitia\Interfaces\Routing\DispatcherResultInterface;
+use Ambitia\Interfaces\Routing\RouteInterface;
 use Ambitia\Http\Routing\FastRoute\FastRouteDispatcher;
 use Ambitia\Http\Routing\MatchRoute;
 use Ambitia\Http\Routing\Router;
@@ -31,7 +31,7 @@ class RouterSpec extends ObjectBehavior
         $this->route('PUT', 'user.edit', 'user/{:user}', [IndexEntry::class, 'edit']);
         $this->route('DELETE', 'user.delete', 'user/{:user}', [IndexEntry::class, 'delete']);
         $route = $this->getRoute('user.show');
-        $route->shouldBeAnInstanceOf(RouteContract::class);
+        $route->shouldBeAnInstanceOf(RouteInterface::class);
         $route->getName()->shouldBe('user.show');
         $route->getMethod()->shouldBe('GET');
         $route->getUri()->shouldBe('user/{:user}');
@@ -50,7 +50,7 @@ class RouterSpec extends ObjectBehavior
         $this->route('GET', 'user.show', '/user/{user}', [IndexEntry::class, 'index']);
         $this->pattern('user', '\d+');
         $dispatch = $this->dispatch('GET', '/user/1');
-        $dispatch->shouldBeAnInstanceOf(DispatcherResultContract::class);
+        $dispatch->shouldBeAnInstanceOf(DispatcherResultInterface::class);
     }
 
 }

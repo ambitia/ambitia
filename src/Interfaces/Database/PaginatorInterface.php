@@ -1,9 +1,9 @@
 <?php
 
-namespace Ambitia\Contracts\Database;
+namespace Ambitia\Interfaces\Database;
 
 
-interface PaginatorContract
+interface PaginatorInterface
 {
     /**
      * Paginate internal list of records. Passing in $dataModelClass will map records onto

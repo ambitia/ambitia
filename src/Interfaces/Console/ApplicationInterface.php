@@ -1,9 +1,9 @@
 <?php
 
-namespace Ambitia\Contracts\Console;
+namespace Ambitia\Interfaces\Console;
 
 
-interface ApplicationContract
+interface ApplicationInterface
 {
     /**
      * Bootstrap the console application
@@ -13,8 +13,8 @@ interface ApplicationContract
 
     /**
      * Add console command to the available commands
-     * @param ConsoleContract $command
+     * @param ConsoleInterface $command
      * @return void
      */
-    public function add(ConsoleContract $command);
+    public function add(ConsoleInterface $command);
 }

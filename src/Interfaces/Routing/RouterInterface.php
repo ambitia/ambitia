@@ -1,8 +1,8 @@
 <?php
 
-namespace Ambitia\Contracts\Routing;
+namespace Ambitia\Interfaces\Routing;
 
-interface RouterContract
+interface RouterInterface
 {
     /**
      * Add a route to the stack.
@@ -17,9 +17,9 @@ interface RouterContract
      * Dispatch route dispatcher and match the route
      * @param string $method
      * @param string $uri
-     * @return DispatcherResultContract
+     * @return DispatcherResultInterface
      */
-    public function dispatch(string $method, string $uri) : DispatcherResultContract;
+    public function dispatch(string $method, string $uri) : DispatcherResultInterface;
 
     /**
      * Add parameter patterns to internal storage
@@ -31,9 +31,9 @@ interface RouterContract
     /**
      * Get route instance by it's name
      * @param string $name
-     * @return RouteContract
+     * @return RouteInterface
      */
-    public function getRoute(string $name) : RouteContract;
+    public function getRoute(string $name) : RouteInterface;
 
     /**
      * Get pattern by it's name

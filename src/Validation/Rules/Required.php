@@ -2,10 +2,10 @@
 
 namespace Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
 use Respect\Validation\Rules\AbstractRule;
 
-class Required extends AbstractRule implements RuleContract
+class Required extends AbstractRule implements RuleInterface
 {
     public function validate($input): bool
     {

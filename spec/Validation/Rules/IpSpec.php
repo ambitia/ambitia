@@ -2,7 +2,7 @@
 
 namespace spec\Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
 use Ambitia\Validation\Rules\Ip;
 use PhpSpec\ObjectBehavior;
 
@@ -11,7 +11,7 @@ class IpSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(Ip::class);
-        $this->shouldImplement(RuleContract::class);
+        $this->shouldImplement(RuleInterface::class);
     }
 
     function it_should_pass_on_valid_ip()

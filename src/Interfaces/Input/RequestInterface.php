@@ -1,8 +1,8 @@
 <?php
 
-namespace Ambitia\Contracts\Input;
+namespace Ambitia\Interfaces\Input;
 
-interface RequestContract
+interface RequestInterface
 {
     /**
      * Get client input for application

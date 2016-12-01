@@ -2,7 +2,7 @@
 
 namespace spec\Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
 use Ambitia\Validation\Rules\AlNum;
 use PhpSpec\ObjectBehavior;
 
@@ -11,7 +11,7 @@ class AlNumSpec extends ObjectBehavior
     function it_is_initializable()
     {
         $this->shouldHaveType(AlNum::class);
-        $this->shouldImplement(RuleContract::class);
+        $this->shouldImplement(RuleInterface::class);
     }
 
     function it_should_return_true_on_alpha_numeric_string()

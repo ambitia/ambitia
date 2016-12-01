@@ -1,7 +1,7 @@
-<?php namespace Ambitia\Contracts\Routing;
+<?php namespace Ambitia\Interfaces\Routing;
 
 
-interface RouteContract
+interface RouteInterface
 {
     function getMethod() : string;
 

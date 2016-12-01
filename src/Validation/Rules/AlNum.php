@@ -1,8 +1,8 @@
 <?php namespace Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
 
-class AlNum extends \Respect\Validation\Rules\Alnum implements RuleContract
+class AlNum extends \Respect\Validation\Rules\Alnum implements RuleInterface
 {
     public function validate($input) : bool
     {

@@ -1,8 +1,8 @@
 <?php namespace Ambitia\Http\Routing;
 
-use Ambitia\Contracts\Routing\RouteContract;
+use Ambitia\Interfaces\Routing\RouteInterface;
 
-class Route implements RouteContract
+class Route implements RouteInterface
 {
     /**
      * HTTP method

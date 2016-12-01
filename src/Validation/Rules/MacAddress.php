@@ -2,9 +2,9 @@
 
 namespace Ambitia\Validation\Rules;
 
-use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
 
-class MacAddress extends \Respect\Validation\Rules\MacAddress implements RuleContract
+class MacAddress extends \Respect\Validation\Rules\MacAddress implements RuleInterface
 {
     /**
      * IEEE 802 standards define 3 formats for MAC address in hexadecimal digits:

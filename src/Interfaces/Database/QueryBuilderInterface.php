@@ -1,7 +1,7 @@
-<?php namespace Ambitia\Contracts\Database;
+<?php namespace Ambitia\Interfaces\Database;
 
 
-interface QueryBuilderContract extends PaginatorContract
+interface QueryBuilderInterface extends PaginatorInterface
 {
     const JOIN_INNER = 'inner';
     const JOIN_LEFT = 'left';
@@ -23,18 +23,18 @@ interface QueryBuilderContract extends PaginatorContract
      * If key of the array is not numeric, it should be used as an alias of the column.
      *
      * @param mixed $columns
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function select($columns = '*'): QueryBuilderContract;
+    public function select($columns = '*'): QueryBuilderInterface;
 
     /**
      * Choose table to which the query is targeting
      *
      * @param string $table
      * @param string|null $alias
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function from(string $table, string $alias = null): QueryBuilderContract;
+    public function from(string $table, string $alias = null): QueryBuilderInterface;
 
     /**
      * Join other table to the query
@@ -43,9 +43,9 @@ interface QueryBuilderContract extends PaginatorContract
      * @param string $conditions String of conditions of joining the tables:
      * 'table1.column1 = table2.column2 AND table1.column2 > table2.column4'
      * @param string $type
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function join(string $table, string $conditions, string $type = self::JOIN_INNER): QueryBuilderContract;
+    public function join(string $table, string $conditions, string $type = self::JOIN_INNER): QueryBuilderInterface;
 
     /**
      * Add simple where part of the query.
@@ -54,9 +54,9 @@ interface QueryBuilderContract extends PaginatorContract
      * @param string $operator
      * @param mixed $value
      * @param string $sign
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function where(string $column, string $operator, $value, string $sign = self::SIGN_AND): QueryBuilderContract;
+    public function where(string $column, string $operator, $value, string $sign = self::SIGN_AND): QueryBuilderInterface;
 
     /**
      * Where in query part
@@ -64,9 +64,9 @@ interface QueryBuilderContract extends PaginatorContract
      * @param string $column
      * @param array $value
      * @param string $sign
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function whereIn(string $column, array $value, string $sign = self::SIGN_AND): QueryBuilderContract;
+    public function whereIn(string $column, array $value, string $sign = self::SIGN_AND): QueryBuilderInterface;
 
     /**
      * Add nested where part of the query. For example:
@@ -77,9 +77,9 @@ interface QueryBuilderContract extends PaginatorContract
      *
      * @param \Closure $callback
      * @param string $sign
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function whereNested(\Closure $callback, $sign = self::SIGN_AND): QueryBuilderContract;
+    public function whereNested(\Closure $callback, $sign = self::SIGN_AND): QueryBuilderInterface;
 
     /**
      * Add where column IS NULL|IS NOT NULL part of the query
@@ -87,26 +87,26 @@ interface QueryBuilderContract extends PaginatorContract
      * @param string $column
      * @param string $sign
      * @param bool $not
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function whereNull(string $column, string $sign = self::SIGN_AND, bool $not = false): QueryBuilderContract;
+    public function whereNull(string $column, string $sign = self::SIGN_AND, bool $not = false): QueryBuilderInterface;
 
     /**
      * Add where column IS NOT NULL part of the query
      *
      * @param string $column
      * @param string $sign
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function whereNotNull(string $column, string $sign = self::SIGN_AND): QueryBuilderContract;
+    public function whereNotNull(string $column, string $sign = self::SIGN_AND): QueryBuilderInterface;
 
     /**
      * Add group by part of the query
      *
      * @param mixed $groups
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function groupBy($groups): QueryBuilderContract;
+    public function groupBy($groups): QueryBuilderInterface;
 
     /**
      * Add having part of the query
@@ -115,43 +115,43 @@ interface QueryBuilderContract extends PaginatorContract
      * @param string $operator
      * @param $value
      * @param string $sign
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function having(string $column, string $operator, $value, $sign = self::SIGN_AND): QueryBuilderContract;
+    public function having(string $column, string $operator, $value, $sign = self::SIGN_AND): QueryBuilderInterface;
 
     /**
      * Add order by part of the query. Use multiple times for sorting by many fields
      *
      * @param string $column
      * @param string $direction
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function orderBy(string $column, $direction = self::DIRECTION_ASC): QueryBuilderContract;
+    public function orderBy(string $column, $direction = self::DIRECTION_ASC): QueryBuilderInterface;
 
     /**
      * Limit the query results to number of records
      *
      * @param int $value
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function limit(int $value): QueryBuilderContract;
+    public function limit(int $value): QueryBuilderInterface;
 
     /**
      * Skip first number of results of the query
      *
      * @param int $value
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function offset(int $value): QueryBuilderContract;
+    public function offset(int $value): QueryBuilderInterface;
 
     /**
      * Add a union part of the query
      *
-     * @param QueryBuilderContract $query
+     * @param QueryBuilderInterface $query
      * @param bool $all
-     * @return QueryBuilderContract
+     * @return QueryBuilderInterface
      */
-    public function union(QueryBuilderContract $query, bool $all = false): QueryBuilderContract;
+    public function union(QueryBuilderInterface $query, bool $all = false): QueryBuilderInterface;
 
     /**
      * Dump query builder to sql string and replace placeholders with bindings

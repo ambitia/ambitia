@@ -1,10 +1,10 @@
 <?php namespace Ambitia\Validation\Rules;
 
 
-use Ambitia\Contracts\Validation\RuleContract;
+use Ambitia\Interfaces\Validation\RuleInterface;
 use Respect\Validation\Rules\ArrayVal;
 
-class Arrayable extends ArrayVal implements RuleContract
+class Arrayable extends ArrayVal implements RuleInterface
 {
     public function validate($input) : bool
     {

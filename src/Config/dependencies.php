@@ -1,11 +1,11 @@
 <?php
 
 $dependencies = [
-    \Ambitia\Contracts\Input\HttpRequestContract::class => \Ambitia\Http\Input\Symfony\Request::class,
-    \Ambitia\Contracts\Routing\RouteMatcherContract::class => \Ambitia\Http\Routing\MatchRoute::class,
-    \Ambitia\Contracts\Output\ResponseContract::class => \Ambitia\Http\Output\Response::class,
-    \Ambitia\Contracts\Routing\DispatcherContract::class => \Ambitia\Http\Routing\FastRoute\FastRouteDispatcher::class,
-    \Ambitia\Contracts\Routing\RouterContract::class => \Ambitia\Http\Routing\Router::class
+    \Ambitia\Interfaces\Input\HttpRequestInterface::class => \Ambitia\Http\Input\Symfony\Request::class,
+    \Ambitia\Interfaces\Routing\RouteMatcherInterface::class => \Ambitia\Http\Routing\MatchRoute::class,
+    \Ambitia\Interfaces\Output\ResponseInterface::class => \Ambitia\Http\Output\Response::class,
+    \Ambitia\Interfaces\Routing\DispatcherInterface::class => \Ambitia\Http\Routing\FastRoute\FastRouteDispatcher::class,
+    \Ambitia\Interfaces\Routing\RouterInterface::class => \Ambitia\Http\Routing\Router::class
 ];
 
 foreach ($dependencies as &$dependency) {
