@@ -309,4 +309,12 @@ class SQLBuilderSpec extends ObjectBehavior
             ->shouldReturn(['id' => '1', 'name' => 'test2']);
     }
 
+    function it_should_return_null_when_not_found_single_record()
+    {
+        $this->from('user', 'u')
+            ->where('id', '=', 999999999999)
+            ->first()
+            ->shouldReturn(null);
+    }
+
 }
