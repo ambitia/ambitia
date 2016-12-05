@@ -2,19 +2,39 @@
 
 namespace Ambitia\Interfaces\Console;
 
+use Ambitia\Console\Exceptions\NoSuchCommandException;
 
 interface ApplicationInterface
 {
     /**
-     * Bootstrap the console application
-     * @return void
+     * Register a console command
+     *
+     * @param string $command Command class name
+     * @return $this
      */
-    public function run();
+    public function registerCommand(string $command);
 
     /**
-     * Add console command to the available commands
-     * @param ConsoleInterface $command
+     * Register an array of console commands
+     *
+     * @param string[] $commands Array of command class names
+     * @return $this
+     */
+    public function registerCommands(array $commands);
+
+    /**
+     * Find a command by the given name and return it's instance
+     *
+     * @param string $name
+     * @throws NoSuchCommandException
+     * @return CommandInterface
+     */
+    public function getCommand(string $name): CommandInterface;
+
+    /**
+     * Execute application logic
+     *
      * @return void
      */
-    public function add(ConsoleInterface $command);
+    public function execute();
 }
