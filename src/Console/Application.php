@@ -35,10 +35,8 @@ class Application implements ApplicationInterface
     /**
      * @inheritDoc
      */
-    public function registerCommand(string $command)
+    public function registerCommand(string $name, string $command)
     {
-        $command = new $command();
-        $name = $command->getName();
         $this->commands[$name] = $command;
 
         return $this;
@@ -49,8 +47,8 @@ class Application implements ApplicationInterface
      */
     public function registerCommands(array $commands)
     {
-        foreach ($commands as $command) {
-            $this->registerCommand($command);
+        foreach ($commands as $name => $command) {
+            $this->registerCommand($name, $command);
         }
 
         return $this;
@@ -65,7 +63,7 @@ class Application implements ApplicationInterface
             throw new NoSuchCommandException($name);
         }
 
-        return $this->commands[$name];
+        return new $this->commands[$name]();
     }
 
     /**
@@ -75,6 +73,8 @@ class Application implements ApplicationInterface
     {
         $commandName = $this->request->getCommandName();
         $command = $this->getCommand($commandName);
+
+        $this->request->addPossibleArguments($command->getArguments());
 
         $command->execute($this->request, $this->response);
     }

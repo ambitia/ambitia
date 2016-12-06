@@ -1,9 +1,14 @@
 <?php
 
 /**
- * Return array of command class names that should be availablefor your application.
+ * Return array of command class names that should be available
+ * for your application. Key is a command alias, it will be executed by the
+ * key in this array. For example:
+ *
+ * php bin/ambitia help
  */
 
 return [
-    \Ambitia\Console\Commands\HelpCommand::class,
+    'help' => \Ambitia\Console\Commands\HelpCommand::class,
+    'test' => \Ambitia\Example\Test\TestCommand::class,
 ];

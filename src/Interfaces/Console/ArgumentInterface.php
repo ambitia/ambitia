@@ -10,6 +10,13 @@ interface ArgumentInterface
     const VALUE_TYPE_BOOL = 'bool';
 
     /**
+     * Setup argument settings. This method will be invoked on object construction
+     *
+     * @return void
+     */
+    public function setup();
+
+    /**
      * Check if a given prefix maps to this argument
      *
      * @param string $prefix
@@ -73,7 +80,29 @@ interface ArgumentInterface
      * Default: string
      *
      * @param string $type
-     * @return mixed
+     * @return $this
      */
     public function setValueType(string $type = self::VALUE_TYPE_STRING);
+
+    /**
+     * Set the value for this argument
+     *
+     * @param mixed $value
+     * @return $this
+     */
+    public function setValue($value);
+
+    /**
+     * Get value of this argument
+     *
+     * @return $this
+     */
+    public function getValue();
+
+    /**
+     * Get array representation of the argument object.
+     *
+     * @return array
+     */
+    public function toArray(): array;
 }

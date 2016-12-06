@@ -9,15 +9,16 @@ interface ApplicationInterface
     /**
      * Register a console command
      *
+     * @param string $name Name of command by which it should be executed
      * @param string $command Command class name
      * @return $this
      */
-    public function registerCommand(string $command);
+    public function registerCommand(string $name, string $command);
 
     /**
      * Register an array of console commands
      *
-     * @param string[] $commands Array of command class names
+     * @param string[] $commands Array of command class names, keys are command names
      * @return $this
      */
     public function registerCommands(array $commands);

@@ -7,9 +7,11 @@ use Ambitia\Interfaces\Console\ResponseInterface;
 
 class HelpCommand extends Command
 {
-    protected $name = 'help';
+    public function setup()
+    {
+        $this->setDescription('Help command explaining how the application works');
+    }
 
-    protected $description = 'Help command explaining how the application works';
     /**
      * @inheritDoc
      */

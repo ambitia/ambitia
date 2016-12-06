@@ -11,11 +11,6 @@ abstract class Command implements CommandInterface
     /**
      * @var string
      */
-    protected $name;
-
-    /**
-     * @var string
-     */
     protected $description;
 
     /**
@@ -23,12 +18,10 @@ abstract class Command implements CommandInterface
      */
     protected $arguments = [];
 
-    /**
-     * @inheritDoc
-     */
-    public function getName(): string
+
+    public function __construct()
     {
-        return $this->name;
+        $this->setup();
     }
 
     /**
@@ -58,8 +51,45 @@ abstract class Command implements CommandInterface
             }
         }
 
-        throw new NoSuchArgumentException($prefix, $this->name);
+        throw new NoSuchArgumentException($prefix, static::class);
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function setDescription(string $description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setArguments(array $arguments)
+    {
+        $this->arguments = $arguments;
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function addArgument(ArgumentInterface $argument)
+    {
+        $this->arguments[] = $argument;
+
+        return $this;
+    }
+
+    /**
+     * Setup command specifications, it's name, arguments, description etc.
+     *
+     * @return void
+     */
+    abstract public function setup();
 
     /**
      * @inheritdoc
