@@ -18,30 +18,45 @@ class Response implements ResponseInterface
 
     public function __construct(MessageFormatterInterface $formatter)
     {
-        $this->climate = new CLImate();
         $this->formatter = $formatter;
+        $this->climate = $this->formatter->getInternalLibrary();
     }
 
+    /**
+     * @inheritDoc
+     */
     public function output(string $line)
     {
         $this->climate->out($line);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function inline(string $string)
     {
         $this->climate->inline($string);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function setOutputWriter(string $writer)
     {
         $this->climate->to($writer);
     }
 
+    /**
+     * @inheritDoc
+     */
     public function getFormatter(): MessageFormatterInterface
     {
         return $this->formatter;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function setFormatter(MessageFormatterInterface $formatter)
     {
         $this->formatter = $formatter;

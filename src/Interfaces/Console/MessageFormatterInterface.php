@@ -2,17 +2,52 @@
 
 namespace Ambitia\Interfaces\Console;
 
-interface MessageFormatterInterface
+interface MessageFormatterInterface extends Color
 {
-    public function color(string $foreground, string $background = null);
+    /**
+     * @param int $foreground
+     * @param int|null $background
+     * @return $this
+     */
+    public function color(int $foreground, int $background = null);
 
-    public function bold(bool $beBold = true);
+    /**
+     * @return $this
+     */
+    public function bold();
 
-    public function underline(bool $beUnderlined = true);
+    /**
+     * Underline text
+     *
+     * @return $this
+     */
+    public function underline();
 
-    public function dim(bool $beDim = true);
+    /**
+     * Dim text
+     *
+     * @return $this
+     */
+    public function dim();
 
-    public function blink(bool $beBlinking = true);
+    /**
+     * Blink text
+     *
+     * @return $this
+     */
+    public function blink();
 
-    public function invert(bool $beInverted = true);
+    /**
+     * Invert foreground with background colors
+     *
+     * @return $this
+     */
+    public function invert();
+
+    /**
+     * Get instance of internal library used for CLI
+     *
+     * @return mixed
+     */
+    public function getInternalLibrary();
 }

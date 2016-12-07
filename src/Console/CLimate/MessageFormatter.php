@@ -1,38 +1,126 @@
 <?php namespace Ambitia\Console\CLimate;
 
 
+use Ambitia\Interfaces\Console\Color;
 use Ambitia\Interfaces\Console\MessageFormatterInterface;
+use League\CLImate\CLImate;
 
 class MessageFormatter implements MessageFormatterInterface
 {
 
-    public function color(string $foreground, string $background = null)
+    /**
+     * @var CLImate
+     */
+    protected $climate;
+
+    public function __construct(CLImate $climate)
     {
-        // TODO: Implement color() method.
+        $this->climate = $climate;
     }
 
-    public function bold(bool $beBold = true)
+    /**
+     * @inheritDoc
+     */
+    public function color(int $foreground, int $background = null)
     {
-        // TODO: Implement bold() method.
+        $foregroundColor = $this->methodForColor($foreground);
+        $this->climate->{$foregroundColor}();
+
+        if (!empty($background)) {
+            $backgroundColor = $this->methodForColor($background);
+            $backgroundColor = sprintf('background%s', ucfirst($backgroundColor));
+            $this->climate->{$backgroundColor}();
+        }
+
+        return $this;
     }
 
-    public function underline(bool $beUnderlined = true)
+    /**
+     * @inheritDoc
+     */
+    public function bold()
     {
-        // TODO: Implement underline() method.
+        $this->climate->bold();
+
+        return $this;
     }
 
-    public function dim(bool $beDim = true)
+    /**
+     * @inheritDoc
+     */
+    public function underline()
     {
-        // TODO: Implement dim() method.
+        $this->climate->underline();
+
+        return $this;
     }
 
-    public function blink(bool $beBlinking = true)
+    /**
+     * @inheritDoc
+     */
+    public function dim()
     {
-        // TODO: Implement blink() method.
+        $this->climate->dim();
+
+        return $this;
     }
 
-    public function invert(bool $beInverted = true)
+    /**
+     * @inheritDoc
+     */
+    public function blink()
     {
-        // TODO: Implement invert() method.
+        $this->climate->blink();
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function invert()
+    {
+        $this->climate->invert();
+
+        return $this;
+    }
+
+    /**
+     * Get method name to set color in CLImate
+     *
+     * @param int $colorCode
+     * @return int|mixed
+     */
+    protected function methodForColor(int $colorCode)
+    {
+        $codes = [
+            Color::BLACK => 'black',
+            Color::DEFAULT => 'default',
+            Color::RED => 'red',
+            Color::GREEN => 'green',
+            Color::YELLOW => 'yellow',
+            Color::BLUE => 'blue',
+            Color::MAGENTA => 'magenta',
+            Color::CYAN => 'cyan',
+            Color::LIGHT_GRAY => 'lightGray',
+            Color::DARK_GRAY => 'darkGray',
+            Color::LIGHT_RED => 'lightRed',
+            Color::LIGHT_GREEN => 'lightGreen',
+            Color::LIGHT_YELLOW => 'lightYellow',
+            Color::LIGHT_BLUE => 'lightBlue',
+            Color::LIGHT_MAGENTA => 'lightMagenta',
+            Color::LIGHT_CYAN => 'lightCyan',
+            Color::WHITE => 'white'
+        ];
+
+        return !empty($codes[$colorCode]) ? $codes[$colorCode] : Color::DEFAULT;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getInternalLibrary(): CLImate
+    {
+        return $this->climate;
     }
 }
