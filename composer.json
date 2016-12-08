@@ -21,7 +21,9 @@
         "psr/http-message": "^1.0",
         "psr/cache": "^1.0",
         "psr/link": "^1.0",
-        "league/climate": "^3.2"
+        "league/climate": "^3.2",
+        "filp/whoops": "^2.1",
+        "monolog/monolog": "^1.22"
     },
     "require-dev": {
         "phpspec/phpspec": "^3.1",

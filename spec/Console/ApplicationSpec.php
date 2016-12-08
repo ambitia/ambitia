@@ -9,6 +9,7 @@ use Ambitia\Console\CLimate\Response;
 use Ambitia\Console\Commands\HelpCommand;
 use Ambitia\Console\Exceptions\NoSuchCommandException;
 use Ambitia\Example\Test\TestCommand;
+use League\CLImate\CLImate;
 use PhpSpec\ObjectBehavior;
 
 class ApplicationSpec extends ObjectBehavior
@@ -17,7 +18,7 @@ class ApplicationSpec extends ObjectBehavior
     {
         $request = new Request(['ambitia.php', 'help']);
         $request->setCommandName('test');
-        $response = new Response(new MessageFormatter());
+        $response = new Response(new MessageFormatter(new CLImate()));
         $this->beConstructedWith($request, $response);
     }
 

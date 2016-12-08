@@ -18,10 +18,17 @@ $map = [
     \Ambitia\Interfaces\Console\ResponseInterface::class => \Ambitia\Console\CLimate\Response::class,
     \Ambitia\Interfaces\Console\MessageFormatterInterface::class => \Ambitia\Console\CLimate\MessageFormatter::class,
 
+    // Validation
+    \Ambitia\Interfaces\Validation\ValidatorInterface::class => Ambitia\Validation\Validator::class,
+
+    // Logger & Debug
+    \Ambitia\Interfaces\Core\ExceptionHandlerInterface::class => \Ambitia\Core\Whoops\ExceptionHandler::class,
+    \Psr\Log\LoggerInterface::class => \Monolog\Logger::class,
 ];
 
 $properties = [
-    \Ambitia\Console\CLimate\Request::class => ['arguments' => !empty($argv) ? $argv : []]
+    \Ambitia\Console\CLimate\Request::class => ['arguments' => !empty($argv) ? $argv : []],
+    \Monolog\Logger::class => ['name' => 'logger', [new \Monolog\Handler\StreamHandler()]]
 ];
 
 return compact('map', 'properties');
